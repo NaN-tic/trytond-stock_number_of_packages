@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- The COPYRIGHT file at the top level of this repository contains the full
+     copyright notices and license terms. -->
+<data>
+    <xpath expr="/form/label[@name='quantity']" position="before">
+    	<newline/>
+    	<label name="package"/>
+    	<field name="package"/>
+    	<label name="number_of_packages"/>
+    	<field name="number_of_packages"/>
+    	<newline/>
+    </xpath>
+</data>

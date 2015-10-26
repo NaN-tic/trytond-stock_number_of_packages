@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!-- The COPYRIGHT file at the top level of this repository contains the full
+     copyright notices and license terms. -->
+<data>
+    <xpath expr="/form" position="inside">
+        <group colspan="2" col="3" id="packaging_units" string="Packaging">
+            <label name="package"/>
+            <field name="package" colspan="2"/>
+
+            <label name="initial_number_of_packages"/>
+            <field name="initial_number_of_packages" colspan="2"/>
+            <label name="package_qty"/>
+            <field name="package_qty"/>
+            <field name="product_uom"/>
+
+            <label name="total_qty"/>
+            <field name="total_qty"/>
+            <field name="product_uom"/>
+
+             <label name="gross_weight"/>
+            <field name="gross_weight" colspan="2"/>
+            <label name="pallet_weight"/>
+            <field name="pallet_weight" colspan="2"/>
+            <label name="package_weight"/>
+            <field name="package_weight" colspan="2"/>
+            <label name="gross_weight_packages"/>
+            <field name="gross_weight_packages" colspan="2"/>
+            <label name="unit_gross_weight"/>
+            <field name="unit_gross_weight" colspan="2"/>
+            <label name="weight"/>
+            <field name="weight" colspan="2"/>
+            <label name="unit_weight"/>
+            <field name="unit_weight" colspan="2"/>
+            <label name="weight_by_package"/>
+            <field name="weight_by_package" colspan="2"/>
+        </group>
+    </xpath>
+</data>

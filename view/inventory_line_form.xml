@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!-- The COPYRIGHT file at the top level of this repository contains the full
+     copyright notices and license terms. -->
+<data>
+    <xpath expr="/form/label[@name='uom']" position="before">
+    	<label name="package"/>
+    	<field name="package"/>
+    </xpath>
+    <xpath expr="/form/label[@name='expected_quantity']" position="before">
+    	<label name="expected_number_of_packages"/>
+    	<field name="expected_number_of_packages"/>
+    	<label name="number_of_packages"/>
+    	<field name="number_of_packages"/>
+    	<newline/>
+    </xpath>
+</data>

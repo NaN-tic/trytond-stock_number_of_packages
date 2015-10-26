@@ -1,0 +1,74 @@
+# The COPYRIGHT file at the top level of this repository contains the full
+# copyright notices and license terms.
+from trytond.pool import Pool, PoolMeta
+from trytond.transaction import Transaction
+
+__all__ = ['ShipmentIn', 'ShipmentOut', 'ShipmentOutReturn']
+__metaclass__ = PoolMeta
+
+
+class ShipmentIn:
+    __name__ = 'stock.shipment.in'
+
+    @classmethod
+    def _get_inventory_moves(cls, incoming_move):
+        move = super(ShipmentIn, cls)._get_inventory_moves(incoming_move)
+        if not move:
+            return
+        move.package = incoming_move.package
+        move.number_of_packages = incoming_move.number_of_packages
+        return move
+
+
+class ShipmentOut:
+    __name__ = 'stock.shipment.out'
+
+    def _get_inventory_move(self, move):
+        inventory_move = super(ShipmentOut, self)._get_inventory_move(move)
+        if not inventory_move:
+            return
+        inventory_move.package = move.package
+        inventory_move.number_of_packages = move.number_of_packages
+        return inventory_move
+
+    @classmethod
+    def pack(cls, shipments):
+        # TODO: improve _sync_inventory_to_outgoing to match
+        # quantity == number_of_packages * package_qty
+        with Transaction().set_context(
+                no_check_quantity_number_of_packages=True):
+            super(ShipmentOut, cls).pack(shipments)
+
+    @classmethod
+    def _sync_inventory_to_outgoing(cls, shipments):
+        with Transaction().set_context(update_packages=True):
+            super(ShipmentOut, cls)._sync_inventory_to_outgoing(shipments)
+
+    def _get_outgoing_move(self, move):
+        new_move = super(ShipmentOut, self)._get_outgoing_move(move)
+        if not new_move:
+            return
+        new_move.package = move.package
+        # new_move.number_of_packages = move.number_of_packages
+        return new_move
+
+    @classmethod
+    def done(cls, shipments):
+        # TODO: improve _sync_inventory_to_outgoing to match
+        # quantity == number_of_packages * package_qty
+        with Transaction().set_context(
+                no_check_quantity_number_of_packages=True):
+            super(ShipmentOut, cls).done(shipments)
+
+
+class ShipmentOutReturn:
+    __name__ = 'stock.shipment.out.return'
+
+    @classmethod
+    def _get_inventory_moves(cls, incoming_move):
+        move = super(ShipmentOutReturn,
+            cls)._get_inventory_moves(incoming_move)
+        if move and incoming_move.package:
+            move.package = incoming_move.package
+            move.number_of_packages = incoming_move.number_of_packages
+        return move
