@@ -34,6 +34,13 @@ Install stock_lot Module::
     >>> stock_module.click('install')
     >>> Wizard('ir.module.module.install_upgrade').execute('upgrade')
 
+Install stock_inventory_product_category Module::
+
+    >>> Module = Model.get('ir.module.module')
+    >>> stock_module, = Module.find([('name', '=', 'stock_inventory_product_category')])
+    >>> stock_module.click('install')
+    >>> Wizard('ir.module.module.install_upgrade').execute('upgrade')
+
 Install stock_lot_quantity Module::
 
     >>> Module = Model.get('ir.module.module')
