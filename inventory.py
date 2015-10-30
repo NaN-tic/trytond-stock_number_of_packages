@@ -1,7 +1,5 @@
 # The COPYRIGHT file at the top level of this repository contains the full
 # copyright notices and license terms.
-import math
-
 from trytond.model import fields
 from trytond.pool import Pool, PoolMeta
 from trytond.transaction import Transaction
@@ -39,7 +37,7 @@ class Inventory:
         for inventory in inventories:
             # Compute product number of packages
             product_ids = None
-            if inventory.product_category:
+            if getattr(inventory, 'product_category', None):
                 categories = Category.search([
                         ('parent', 'child_of',
                             [inventory.product_category.id]),
