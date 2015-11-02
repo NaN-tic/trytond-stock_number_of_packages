@@ -33,10 +33,9 @@ class ShipmentOut:
 
     @classmethod
     def pack(cls, shipments):
-        # TODO: improve _sync_inventory_to_outgoing to match
-        # quantity == number_of_packages * package_qty
         with Transaction().set_context(
-                no_check_quantity_number_of_packages=True):
+                no_check_quantity_number_of_packages=Transaction().context.get(
+                    'no_check_quantity_number_of_packages', True)):
             super(ShipmentOut, cls).pack(shipments)
 
     @classmethod
