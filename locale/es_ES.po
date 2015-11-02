@@ -1,0 +1,317 @@
+#
+msgid ""
+msgstr "Content-Type: text/plain; charset=utf-8\n"
+
+msgctxt "error:product.pack:"
+msgid ""
+"You cannot change the Product for a packaging which is associated to stock "
+"moves."
+msgstr ""
+"No puede cambiar el producte de un embalaje que está asociado a movimientos "
+"de estoc."
+
+msgctxt "error:product.pack:"
+msgid ""
+"You cannot change the Quantity by Package for a packaging which is "
+"associated to stock moves."
+msgstr ""
+"No puede cambiar la cantidad por embalaje de un embalaje que está asociado a"
+" movimientos de estoc."
+
+msgctxt "error:product.pack:"
+msgid "You cannot delete a packaging which is associated to stock moves."
+msgstr ""
+"No puede eliminar un embalaje que está asociado a movimientos de estoc."
+
+msgctxt "error:product.template:"
+msgid ""
+"You cannot change the Packaging Required for a product which is associated "
+"to stock moves."
+msgstr ""
+"No puede cambiar el embalaje requerido de un producte que está asociado a "
+"movimientos de estoc."
+
+msgctxt "error:stock.inventory.line:"
+msgid "Number of packages must be positive in inventory line \"%s\"."
+msgstr ""
+"El número de embalajes debe ser positivo en la línea de inventario \"%s\"."
+
+msgctxt "error:stock.inventory.line:"
+msgid "Number of packages required for inventory line \"%s\"."
+msgstr "El número de embalajes és obligatório en la línea de inventario \"%s\"."
+
+msgctxt "error:stock.inventory.line:"
+msgid "Package of inventory line  \"%s\" is not the same that the lot's package."
+msgstr ""
+"El embalaje de la líniea de inventario \"%s\" no es el mismo que el de su "
+"lote."
+
+msgctxt "error:stock.inventory.line:"
+msgid "Package required for inventory line \"%s\"."
+msgstr "Embalaje obligatorio en la línia de inventario \"%s\"."
+
+msgctxt "error:stock.inventory.line:"
+msgid ""
+"Quantity by Package is required for lot \"%(lot)s\" of inventory line "
+"\"%(record)s\"."
+msgstr ""
+"La cantidad por embalaje es obligatoria en el lote \"%(lot)s\" de la línea "
+"de inventario \"%(record)s\"."
+
+msgctxt "error:stock.inventory.line:"
+msgid ""
+"Quantity by Package is required for package \"%(package)s\" of inventory "
+"line \"%(record)s\"."
+msgstr ""
+"La cantidad por embalaje es obligatoria en el embalaje \"%(package)s\" de la"
+" líniea de inventario \"%(record)s\"."
+
+msgctxt "error:stock.inventory.line:"
+msgid ""
+"The quantity of inventory line \"%s\" do not correspond to the number of "
+"packages."
+msgstr ""
+"La cantidad de la línea de inventario \"%s\" no corresponde al número de "
+"embalajes."
+
+msgctxt "error:stock.lot:"
+msgid "Quantity by Package of Lot must be positive"
+msgstr "La cantidad por embalaje del lote debe ser positiva."
+
+msgctxt "error:stock.move:"
+msgid "Number of packages must be positive in move \"%s\"."
+msgstr "El número de embalajes debe ser positivo en el movimiento \"%s\"."
+
+msgctxt "error:stock.move:"
+msgid "Number of packages required for move \"%s\"."
+msgstr "El número de embalajes és obligatório en el movimiento \"%s\"."
+
+msgctxt "error:stock.move:"
+msgid "Package of move \"%s\" is not the same that the lot's package."
+msgstr "El embalaje del movimiento \"%s\" no es el mismo que el de su lote."
+
+msgctxt "error:stock.move:"
+msgid "Package required for move \"%s\"."
+msgstr "Embalaje obligatorio en el movimiento \"%s\"."
+
+msgctxt "error:stock.move:"
+msgid "Quantity by Package is required for lot \"%(lot)s\" of move \"%(record)s\"."
+msgstr ""
+"La cantidad por embalaje es obligatoria en el lote \"%(lot)s\" del "
+"movimiento \"%(record)s\"."
+
+msgctxt "error:stock.move:"
+msgid ""
+"Quantity by Package is required for package \"%(package)s\" of move "
+"\"%(record)s\"."
+msgstr ""
+"La cantidad por embalaje es obligatoria en el embalaje \"%(package)s\" del "
+"movimiento \"%(record)s\"."
+
+msgctxt "error:stock.move:"
+msgid "The quantity of move \"%s\" do not correspond to the number of packages."
+msgstr "La cantidad del movimiento \"%s\" no corresponde al número de embalajes."
+
+msgctxt "field:product.product,forecast_number_of_packages:"
+msgid "Forecast Number of packages"
+msgstr "Embalajes esperados"
+
+msgctxt "field:product.product,number_of_packages:"
+msgid "Number of packages"
+msgstr "Embalajes"
+
+msgctxt "field:product.product,package_required:"
+msgid "Packaging Required"
+msgstr "Embalaje obligatorio"
+
+msgctxt "field:product.template,default_package:"
+msgid "Default Packaging"
+msgstr "Embalaje por defecto"
+
+msgctxt "field:product.template,forecast_number_of_packages:"
+msgid "Forecast Number of packages"
+msgstr "Embalajes esperados"
+
+msgctxt "field:product.template,number_of_packages:"
+msgid "Number of packages"
+msgstr "Embalajes"
+
+msgctxt "field:product.template,package_required:"
+msgid "Packaging Requried"
+msgstr "Embalaje obligatorio"
+
+msgctxt "field:stock.inventory.line,expected_number_of_packages:"
+msgid "Expected Number of packages"
+msgstr "Embalajes esperados"
+
+msgctxt "field:stock.inventory.line,number_of_packages:"
+msgid "Number of packages"
+msgstr "Embalajes"
+
+msgctxt "field:stock.inventory.line,package:"
+msgid "Packaging"
+msgstr "Embalaje"
+
+msgctxt "field:stock.location,forecast_number_of_packages:"
+msgid "Forecast Number of packages"
+msgstr "Embalajes esperados"
+
+msgctxt "field:stock.location,number_of_packages:"
+msgid "Number of packages"
+msgstr "Embalajes"
+
+msgctxt "field:stock.lot,forecast_number_of_packages:"
+msgid "Forecast Number of packages"
+msgstr "Embalajes esperados"
+
+msgctxt "field:stock.lot,gross_weight:"
+msgid "Gross Weight"
+msgstr "Peso bruto"
+
+msgctxt "field:stock.lot,gross_weight_packages:"
+msgid "Gross Weight Packages"
+msgstr "Peso bruto embalajes"
+
+msgctxt "field:stock.lot,initial_number_of_packages:"
+msgid "Initial Number of packages"
+msgstr "Embalajes iniciales"
+
+msgctxt "field:stock.lot,number_of_packages:"
+msgid "Number of packages"
+msgstr "Embalajes"
+
+msgctxt "field:stock.lot,package:"
+msgid "Packaging"
+msgstr "Embalaje"
+
+msgctxt "field:stock.lot,package_qty:"
+msgid "Quantity by Package"
+msgstr "Cantidad por embalaje"
+
+msgctxt "field:stock.lot,package_required:"
+msgid "Packaging Required"
+msgstr "Embalaje obligatorio"
+
+msgctxt "field:stock.lot,package_weight:"
+msgid "Package Weigth"
+msgstr "Peso del embalaje"
+
+msgctxt "field:stock.lot,pallet_weight:"
+msgid "Pallet Weigth"
+msgstr "Peso del palet"
+
+msgctxt "field:stock.lot,product_unit_digits:"
+msgid "Product Unit Digits"
+msgstr "Decimals unidad del producto"
+
+msgctxt "field:stock.lot,product_uom:"
+msgid "Unit"
+msgstr "Unidad"
+
+msgctxt "field:stock.lot,total_qty:"
+msgid "Total Qty."
+msgstr "Cantidad total"
+
+msgctxt "field:stock.lot,unit_gross_weight:"
+msgid "Gross Unit Weight"
+msgstr "Peso bruto unitario"
+
+msgctxt "field:stock.lot,unit_weight:"
+msgid "Unit Net Weight"
+msgstr "Peso neto unitario"
+
+msgctxt "field:stock.lot,weight:"
+msgid "Net Weight"
+msgstr "Peso neto"
+
+msgctxt "field:stock.lot,weight_by_package:"
+msgid "Weight by package"
+msgstr "Peso neto por embalaje"
+
+msgctxt "field:stock.lot,weight_unit_digits:"
+msgid "Weight Unit Digits"
+msgstr "Decimales unidad del peso"
+
+msgctxt "field:stock.move,number_of_packages:"
+msgid "Number of packages"
+msgstr "Embalajes"
+
+msgctxt "field:stock.move,package:"
+msgid "Packaging"
+msgstr "Embalaje"
+
+msgctxt "field:stock.period,package_caches:"
+msgid "Package Caches"
+msgstr "Estoc precalculado por embalaje"
+
+msgctxt "field:stock.period.cache,number_of_packages:"
+msgid "Number of packages"
+msgstr "Embalajes"
+
+msgctxt "field:stock.period.cache.lot,number_of_packages:"
+msgid "Number of packages"
+msgstr "Embalajes"
+
+msgctxt "field:stock.period.cache.package,create_date:"
+msgid "Create Date"
+msgstr "Fecha creación"
+
+msgctxt "field:stock.period.cache.package,create_uid:"
+msgid "Create User"
+msgstr "Usuario creación"
+
+msgctxt "field:stock.period.cache.package,id:"
+msgid "ID"
+msgstr "Identificador"
+
+msgctxt "field:stock.period.cache.package,internal_quantity:"
+msgid "Internal Quantity"
+msgstr "Cantidad interna"
+
+msgctxt "field:stock.period.cache.package,location:"
+msgid "Location"
+msgstr "Ubicación"
+
+msgctxt "field:stock.period.cache.package,number_of_packages:"
+msgid "Number of packages"
+msgstr "Embalajes"
+
+msgctxt "field:stock.period.cache.package,package:"
+msgid "Package"
+msgstr "Embalaje"
+
+msgctxt "field:stock.period.cache.package,period:"
+msgid "Period"
+msgstr "Período"
+
+msgctxt "field:stock.period.cache.package,product:"
+msgid "Product"
+msgstr "Producto"
+
+msgctxt "field:stock.period.cache.package,rec_name:"
+msgid "Name"
+msgstr "Nombre"
+
+msgctxt "field:stock.period.cache.package,write_date:"
+msgid "Write Date"
+msgstr "Fecha modificación"
+
+msgctxt "field:stock.period.cache.package,write_uid:"
+msgid "Write User"
+msgstr "Usuario modificación"
+
+msgctxt "model:stock.period.cache.package,name:"
+msgid "Stock Period Cache per Package"
+msgstr "Período de estoc por embalaje recalculado"
+
+msgctxt "view:stock.lot:"
+msgid "Packaging"
+msgstr "Embalaje"
+
+msgctxt "view:stock.period.cache.package:"
+msgid "Period Cache"
+msgstr "Período precalculado"
+
+msgctxt "view:stock.period.cache.package:"
+msgid "Period Package Caches"
+msgstr "Estoc precalculado por embalaje"

@@ -1,0 +1,314 @@
+#
+msgid ""
+msgstr "Content-Type: text/plain; charset=utf-8\n"
+
+msgctxt "error:product.pack:"
+msgid ""
+"You cannot change the Product for a packaging which is associated to stock "
+"moves."
+msgstr ""
+"No pot canviar el producte d'un embalatge que està associat a moviments "
+"d'estoc."
+
+msgctxt "error:product.pack:"
+msgid ""
+"You cannot change the Quantity by Package for a packaging which is "
+"associated to stock moves."
+msgstr ""
+"No pot canviar la quantitat per embalatge d'un embalatge que està associat a"
+" moviments d'estoc."
+
+msgctxt "error:product.pack:"
+msgid "You cannot delete a packaging which is associated to stock moves."
+msgstr "No pot eliminar un embalatge que està associat a moviments d'estoc."
+
+msgctxt "error:product.template:"
+msgid ""
+"You cannot change the Packaging Required for a product which is associated "
+"to stock moves."
+msgstr ""
+"No pot canviar l'embalatge obligatori per un producte que està associat a "
+"moviments d'estoc."
+
+msgctxt "error:stock.inventory.line:"
+msgid "Number of packages must be positive in inventory line \"%s\"."
+msgstr "El número d'embalatges de la línia d'inventari \"%s\" ha de ser positiu."
+
+msgctxt "error:stock.inventory.line:"
+msgid "Number of packages required for inventory line \"%s\"."
+msgstr "Número d'embalatges requerit a la línia d'inventari \"%s\"."
+
+msgctxt "error:stock.inventory.line:"
+msgid "Package of inventory line  \"%s\" is not the same that the lot's package."
+msgstr ""
+"L'embalatge de la línia d'inventari \"%s\" no és el mateix que el del lot."
+
+msgctxt "error:stock.inventory.line:"
+msgid "Package required for inventory line \"%s\"."
+msgstr "Embalatge obligatori a la línia d'inventari \"%s\"."
+
+msgctxt "error:stock.inventory.line:"
+msgid ""
+"Quantity by Package is required for lot \"%(lot)s\" of inventory line "
+"\"%(record)s\"."
+msgstr ""
+"La quantitat per embalatge és obligatòria pel lot \"%(lot)s\" de la línia "
+"d'inventari \"%(record)s\"."
+
+msgctxt "error:stock.inventory.line:"
+msgid ""
+"Quantity by Package is required for package \"%(package)s\" of inventory "
+"line \"%(record)s\"."
+msgstr ""
+"La quantitat per embalatge és obligatòria a l'embalatge \"%(package)s\" de "
+"la línia d'inventari \"%(record)s\"."
+
+msgctxt "error:stock.inventory.line:"
+msgid ""
+"The quantity of inventory line \"%s\" do not correspond to the number of "
+"packages."
+msgstr ""
+"La quantitat de la línia d'inventari \"%s\" no correspon al número "
+"d'embalatges."
+
+msgctxt "error:stock.lot:"
+msgid "Quantity by Package of Lot must be positive"
+msgstr "La quantitat per embalatge del lot ha de ser positiva"
+
+msgctxt "error:stock.move:"
+msgid "Number of packages must be positive in move \"%s\"."
+msgstr "El número d'embalatges del moviment \"%s\" ha de ser positiu."
+
+msgctxt "error:stock.move:"
+msgid "Number of packages required for move \"%s\"."
+msgstr "Número d'embalatges requerit al moviment \"%s\"."
+
+msgctxt "error:stock.move:"
+msgid "Package of move \"%s\" is not the same that the lot's package."
+msgstr "L'embalatge del moviment d'estoc \"%s\" no és el mateix que el del lot."
+
+msgctxt "error:stock.move:"
+msgid "Package required for move \"%s\"."
+msgstr "Embalatge obligatori al moviment \"%s\"."
+
+msgctxt "error:stock.move:"
+msgid "Quantity by Package is required for lot \"%(lot)s\" of move \"%(record)s\"."
+msgstr ""
+"La quantitat per embalatge és obligatòria pel lot \"%(lot)s\" del moviment "
+"\"%(record)s\"."
+
+msgctxt "error:stock.move:"
+msgid ""
+"Quantity by Package is required for package \"%(package)s\" of move "
+"\"%(record)s\"."
+msgstr ""
+"La quantitat per embalatge és obligatòria a l'embalatge \"%(package)s\" del "
+"moviment \"%(record)s\"."
+
+msgctxt "error:stock.move:"
+msgid "The quantity of move \"%s\" do not correspond to the number of packages."
+msgstr "La quantitat del moviment \"%s\" no correspon al número d'embalatges."
+
+msgctxt "field:product.product,forecast_number_of_packages:"
+msgid "Forecast Number of packages"
+msgstr "Embalatges esperats"
+
+msgctxt "field:product.product,number_of_packages:"
+msgid "Number of packages"
+msgstr "Embalatges"
+
+msgctxt "field:product.product,package_required:"
+msgid "Packaging Required"
+msgstr "Embalatge obligatori"
+
+msgctxt "field:product.template,default_package:"
+msgid "Default Packaging"
+msgstr "Embalatge per defecte"
+
+msgctxt "field:product.template,forecast_number_of_packages:"
+msgid "Forecast Number of packages"
+msgstr "Embalatges esperats"
+
+msgctxt "field:product.template,number_of_packages:"
+msgid "Number of packages"
+msgstr "Embalatges"
+
+msgctxt "field:product.template,package_required:"
+msgid "Packaging Requried"
+msgstr "Embalatge obligatori"
+
+msgctxt "field:stock.inventory.line,expected_number_of_packages:"
+msgid "Expected Number of packages"
+msgstr "Embalatges esperats"
+
+msgctxt "field:stock.inventory.line,number_of_packages:"
+msgid "Number of packages"
+msgstr "Embalatges"
+
+msgctxt "field:stock.inventory.line,package:"
+msgid "Packaging"
+msgstr "Embalatge"
+
+msgctxt "field:stock.location,forecast_number_of_packages:"
+msgid "Forecast Number of packages"
+msgstr "Embalatges esperats"
+
+msgctxt "field:stock.location,number_of_packages:"
+msgid "Number of packages"
+msgstr "Embalatges"
+
+msgctxt "field:stock.lot,forecast_number_of_packages:"
+msgid "Forecast Number of packages"
+msgstr "Embalatges esperats"
+
+msgctxt "field:stock.lot,gross_weight:"
+msgid "Gross Weight"
+msgstr "Pes brut"
+
+msgctxt "field:stock.lot,gross_weight_packages:"
+msgid "Gross Weight Packages"
+msgstr "Pes brut embalatges"
+
+msgctxt "field:stock.lot,initial_number_of_packages:"
+msgid "Initial Number of packages"
+msgstr "Embalatges inicials"
+
+msgctxt "field:stock.lot,number_of_packages:"
+msgid "Number of packages"
+msgstr "Embalatges"
+
+msgctxt "field:stock.lot,package:"
+msgid "Packaging"
+msgstr "Embalatge"
+
+msgctxt "field:stock.lot,package_qty:"
+msgid "Quantity by Package"
+msgstr "Quantitat per embalatge"
+
+msgctxt "field:stock.lot,package_required:"
+msgid "Packaging Required"
+msgstr "Embalatge obligatori"
+
+msgctxt "field:stock.lot,package_weight:"
+msgid "Package Weigth"
+msgstr "Pes de l'embalatge"
+
+msgctxt "field:stock.lot,pallet_weight:"
+msgid "Pallet Weigth"
+msgstr "Pes palet"
+
+msgctxt "field:stock.lot,product_unit_digits:"
+msgid "Product Unit Digits"
+msgstr "Decimals unitat del producte"
+
+msgctxt "field:stock.lot,product_uom:"
+msgid "Unit"
+msgstr "Unitat"
+
+msgctxt "field:stock.lot,total_qty:"
+msgid "Total Qty."
+msgstr "Quantitat total"
+
+msgctxt "field:stock.lot,unit_gross_weight:"
+msgid "Gross Unit Weight"
+msgstr "Pes brut unitari"
+
+msgctxt "field:stock.lot,unit_weight:"
+msgid "Unit Net Weight"
+msgstr "Pes net unitari"
+
+msgctxt "field:stock.lot,weight:"
+msgid "Net Weight"
+msgstr "Pes net"
+
+msgctxt "field:stock.lot,weight_by_package:"
+msgid "Weight by package"
+msgstr "Pes net per embalatge"
+
+msgctxt "field:stock.lot,weight_unit_digits:"
+msgid "Weight Unit Digits"
+msgstr "Decimals unitat del pes"
+
+msgctxt "field:stock.move,number_of_packages:"
+msgid "Number of packages"
+msgstr "Embalatges"
+
+msgctxt "field:stock.move,package:"
+msgid "Packaging"
+msgstr "Embalatge"
+
+msgctxt "field:stock.period,package_caches:"
+msgid "Package Caches"
+msgstr "Estoc per embalatge precalculat "
+
+msgctxt "field:stock.period.cache,number_of_packages:"
+msgid "Number of packages"
+msgstr "Embalatges"
+
+msgctxt "field:stock.period.cache.lot,number_of_packages:"
+msgid "Number of packages"
+msgstr "Embalatges"
+
+msgctxt "field:stock.period.cache.package,create_date:"
+msgid "Create Date"
+msgstr "Data creació"
+
+msgctxt "field:stock.period.cache.package,create_uid:"
+msgid "Create User"
+msgstr "Usuari creació"
+
+msgctxt "field:stock.period.cache.package,id:"
+msgid "ID"
+msgstr "Identificador"
+
+msgctxt "field:stock.period.cache.package,internal_quantity:"
+msgid "Internal Quantity"
+msgstr "Quantitat interna"
+
+msgctxt "field:stock.period.cache.package,location:"
+msgid "Location"
+msgstr "Ubicació"
+
+msgctxt "field:stock.period.cache.package,number_of_packages:"
+msgid "Number of packages"
+msgstr "Embalatges"
+
+msgctxt "field:stock.period.cache.package,package:"
+msgid "Package"
+msgstr "Embalatge"
+
+msgctxt "field:stock.period.cache.package,period:"
+msgid "Period"
+msgstr "Període"
+
+msgctxt "field:stock.period.cache.package,product:"
+msgid "Product"
+msgstr "Producte"
+
+msgctxt "field:stock.period.cache.package,rec_name:"
+msgid "Name"
+msgstr "Nom"
+
+msgctxt "field:stock.period.cache.package,write_date:"
+msgid "Write Date"
+msgstr "Data modificació"
+
+msgctxt "field:stock.period.cache.package,write_uid:"
+msgid "Write User"
+msgstr "Usuari modificació"
+
+msgctxt "model:stock.period.cache.package,name:"
+msgid "Stock Period Cache per Package"
+msgstr "Període d'estoc per embalatge precalculat "
+
+msgctxt "view:stock.lot:"
+msgid "Packaging"
+msgstr "Embalatge"
+
+msgctxt "view:stock.period.cache.package:"
+msgid "Period Cache"
+msgstr "Període precalculat"
+
+msgctxt "view:stock.period.cache.package:"
+msgid "Period Package Caches"
+msgstr "Períodes d'estoc per embalatge precalculat "
