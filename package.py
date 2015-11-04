@@ -42,7 +42,7 @@ class PackagedMixin:
 
     @fields.depends('package', 'number_of_packages', methods=['quantity'])
     def on_change_package(self):
-        if getattr(self, 'lot', None):
+        if hasattr(self, 'lot') and getattr(self, 'lot', None):
             package_qty = self.lot.package_qty
         elif self.package and self.package.qty:
             package_qty = self.package.qty
@@ -60,7 +60,7 @@ class PackagedMixin:
             return {
                 'quantity': None,
                 }
-        if getattr(self, 'lot', None):
+        if hasattr(self, 'lot') and getattr(self, 'lot', None):
             package_qty = self.lot.package_qty
         elif self.package and self.package.qty:
             package_qty = self.package.qty
@@ -74,7 +74,7 @@ class PackagedMixin:
 
     @fields.depends('quantity', 'package')
     def on_change_quantity(self):
-        if getattr(self, 'lot', None):
+        if hasattr(self, 'lot') and getattr(self, 'lot', None):
             package_qty = self.lot.package_qty
         elif self.package and self.package.qty:
             package_qty = self.package.qty
@@ -103,7 +103,12 @@ class PackagedMixin:
         Check if package is required and all realted data is exists, and
         if number of packages corresponds to the quantity.
         """
-        uom = getattr(self, 'uom', getattr(self, 'unit', None))
+        if hasattr(self, 'uom'):
+            uom = self.uom
+        elif hasattr(self, 'unit'):
+            uom = self.unit
+        else:
+            uom = None
         if (not self.product.package_required
                 or self.quantity < uom.rounding):
             return
@@ -114,7 +119,7 @@ class PackagedMixin:
         if self.number_of_packages == None:
             self.raise_user_error('number_of_packages_required', self.rec_name)
 
-        if getattr(self, 'lot', None):
+        if hasattr(self, 'lot') and getattr(self, 'lot', None):
             if not self.lot.package or self.lot.package != self.package:
                 self.raise_user_error('invalid_lot_package', self.rec_name)
             if not self.lot.package_qty:
