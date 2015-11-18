@@ -1,6 +1,7 @@
 # The COPYRIGHT file at the top level of this repository contains the full
 # copyright notices and license terms.
 import math
+from decimal import Decimal
 
 from trytond.model import fields
 from trytond.pool import Pool, PoolMeta
@@ -70,10 +71,10 @@ class PackagedMixin:
                 'quantity': None,
                 }
         return {
-            'quantity': package_qty * self.number_of_packages
+            'quantity': package_qty * self.number_of_packages,
             }
 
-    @fields.depends('quantity', 'package')
+    @fields.depends('quantity', 'product', 'package')
     def on_change_quantity(self):
         if hasattr(self, 'lot') and getattr(self, 'lot', None):
             package_qty = self.lot.package_qty
@@ -83,8 +84,10 @@ class PackagedMixin:
             package_qty = None
 
         if self.quantity and package_qty != None:
+            quantize = Decimal(str(self.product.default_uom.rounding))
             self.number_of_packages = int(
-                math.ceil(self.quantity / package_qty))
+                math.ceil(Decimal(str(self.quantity)).quantize(quantize)
+                    / Decimal(str(package_qty)).quantize(quantize)))
             self.quantity = self.number_of_packages * package_qty
         else:
             self.number_of_packages = None
