@@ -133,11 +133,19 @@ class Move(StockPackagedMixin):
     @classmethod
     def validate(cls, records):
         super(Move, cls).validate(records)
+        pool = Pool()
+        InventoryLine = pool.get('stock.inventory.line')
+        ShipmentOut = pool.get('stock.shipment.out')
+
         for move in records:
+            check = (isinstance(move.shipment, ShipmentOut) or
+                isinstance(move.origin, InventoryLine))
             if move.state in ('assigned', 'done'):
-                move.check_package(
-                    move._get_internal_quantity(move.quantity, move.uom,
-                        move.product))
+                with Transaction().set_context(
+                        no_check_quantity_number_of_packages=check):
+                    move.check_package(
+                        move._get_internal_quantity(move.quantity, move.uom,
+                            move.product))
 
     @classmethod
     def compute_quantities_query(cls, location_ids, with_childs=False,

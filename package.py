@@ -54,7 +54,7 @@ class PackagedMixin:
             return {
                 'quantity': self.number_of_packages * package_qty
                 }
-        return self.on_change_quantity()
+        return {}
 
     @fields.depends('package', 'number_of_packages')
     def on_change_number_of_packages(self):
@@ -73,34 +73,6 @@ class PackagedMixin:
         return {
             'quantity': package_qty * self.number_of_packages,
             }
-
-    @fields.depends('quantity', 'product', 'package')
-    def on_change_quantity(self):
-        if hasattr(self, 'lot') and getattr(self, 'lot', None):
-            package_qty = self.lot.package_qty
-        elif self.package and self.package.qty:
-            package_qty = self.package.qty
-        else:
-            package_qty = None
-
-        if self.quantity and package_qty != None:
-            quantize = Decimal(str(self.product.default_uom.rounding))
-            self.number_of_packages = int(
-                math.ceil(Decimal(str(self.quantity)).quantize(quantize)
-                    / Decimal(str(package_qty)).quantize(quantize)))
-            self.quantity = self.number_of_packages * package_qty
-        else:
-            self.number_of_packages = None
-
-        try:
-            res = super(PackagedMixin, self).on_change_quantity()
-        except AttributeError:
-            res = {}
-        res.update({
-                'number_of_packages': self.number_of_packages,
-                'quantity': self.quantity,
-                })
-        return res
 
     def check_package(self, quantity):
         """
