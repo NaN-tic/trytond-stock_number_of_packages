@@ -1,8 +1,5 @@
 # The COPYRIGHT file at the top level of this repository contains the full
 # copyright notices and license terms.
-import math
-from decimal import Decimal
-
 from trytond.model import fields
 from trytond.pool import Pool, PoolMeta
 from trytond.pyson import Bool, Eval
@@ -42,7 +39,7 @@ class PackagedMixin:
                 res['package.rec_name'] = None
         return res
 
-    @fields.depends('package', 'number_of_packages', methods=['quantity'])
+    @fields.depends('package', 'number_of_packages', 'lot')
     def on_change_package(self):
         if hasattr(self, 'lot') and getattr(self, 'lot', None):
             package_qty = self.lot.package_qty

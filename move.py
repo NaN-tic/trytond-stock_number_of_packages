@@ -26,7 +26,8 @@ class StockPackagedMixin(PackagedMixin):
             cls.package.states['readonly'] = Bool(Eval('lot'))
             cls.package.depends.append('lot')
             cls.package.on_change.add('lot')
-            cls.quantity.on_change.add('lot')
+            if cls.quantity.on_change:
+                cls.quantity.on_change.add('lot')
             cls.number_of_packages.on_change.add('lot')
 
     @fields.depends('lot', 'package', methods=['package'])
@@ -49,7 +50,6 @@ class StockPackagedMixin(PackagedMixin):
     def check_package(self, quantity):
         if self.number_of_packages and self.number_of_packages < 0:
             self.raise_user_error('number_of_packages_positive', self.rec_name)
-
         super(StockPackagedMixin, self).check_package(quantity)
 
 
