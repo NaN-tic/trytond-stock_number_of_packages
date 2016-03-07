@@ -137,12 +137,7 @@ Receive products one month ago::
 
     >>> incoming_move = shipment_in.incoming_moves.new()
     >>> incoming_move.product = product_w_package
-    >>> incoming_move.number_of_packages = 10
-    >>> incoming_move.quantity
-    45.0
-    >>> incoming_move.quantity = 50.0
-    >>> incoming_move.number_of_packages
-    12
+    >>> incoming_move.number_of_packages = 12
     >>> incoming_move.quantity
     54.0
     >>> incoming_move.from_location = supplier_loc

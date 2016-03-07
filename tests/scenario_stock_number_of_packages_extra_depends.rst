@@ -492,9 +492,7 @@ Create an inventory::
     79.9
     >>> line.expected_number_of_packages
     17
-    >>> line.quantity = 85.0
-    >>> line.number_of_packages
-    19
+    >>> line.number_of_packages = 19
     >>> line.quantity
     89.3
     
@@ -678,8 +676,6 @@ Check sale shpiment inventory moves::
     >>> move = move_by_product[product_w_package.id]
     >>> move.number_of_packages
     >>> move.package = product_w_package.template.default_package
-    >>> move.number_of_packages
-    8
     >>> move.number_of_packages = 6
     >>> move.quantity
     24.0
@@ -687,14 +683,12 @@ Check sale shpiment inventory moves::
     >>> move = move_by_product[product_lot_wo_package.id]
     >>> move.number_of_packages
     >>> move.lot = lot_wo_package
-    >>> move.number_of_packages
-    2
+    >>> move.number_of_packages = 2
 
     >>> move = move_by_product[product_lot_w_package.id]
     >>> move.number_of_packages
     >>> move.lot = lot_w_package
-    >>> move.number_of_packages
-    18
+    >>> move.number_of_packages = 18
     >>> round(move.quantity, 1)
     84.6
 
@@ -804,24 +798,20 @@ Create return sale::
 Validate return shipment::
 
     >>> shipment_return, = returned_sale.shipment_returns
-    >>> for move in shipment_return.incoming_moves:
-    ...     if move.product == product_wo_package:
-    ...         move.number_of_packages == None
-    ...     elif move.product == product_w_package:
-    ...         move.package = product_w_package.template.default_package
-    ...         move.number_of_packages == 3
-    ...     elif move.product == product_lot_wo_package:
-    ...         move.number_of_packages == None
-    ...         move.lot = lot_wo_package
-    ...         move.number_of_packages == 1
-    ...     elif move.product == product_lot_w_package:
-    ...         move.lot = lot_w_package
-    ...         move.number_of_packages == 3
-    True
-    True
-    True
-    True
-    True
+    >>> moves_by_products = {m.product.id: m
+    ...     for m in shipment_return.incoming_moves}
+    >>> moves_by_products[product_wo_package.id].number_of_packages
+    >>> moves_by_products[product_w_package.id].package \
+    ...     = product_w_package.template.default_package
+    >>> moves_by_products[product_w_package.id].number_of_packages = 3
+
+    >>> moves_by_products[product_lot_wo_package.id].package
+    >>> moves_by_products[product_lot_wo_package.id].lot = lot_wo_package
+    >>> moves_by_products[product_lot_wo_package.id].number_of_packages = 1
+
+    >>> moves_by_products[product_lot_w_package.id].lot = lot_w_package
+    >>> moves_by_products[product_lot_w_package.id].number_of_packages = 3
+
     >>> shipment_return.save()
     >>> shipment_return.click('receive')
     >>> shipment_return.click('done')
