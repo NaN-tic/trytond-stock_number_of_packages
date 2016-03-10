@@ -36,15 +36,17 @@ class StockPackagedMixin(PackagedMixin):
             res = super(StockPackagedMixin, self).on_change_lot()
         except AttributeError:
             res = {}
-        if self.lot and self.lot.package and self.package != self.lot.package:
-            res['package'] = self.lot.package.id
-            res['package.rec_name'] = (
-                self.lot.package.rec_name)
-            self.package = self.lot.package
+        if self.lot:
+            if self.lot.package and self.package != self.lot.package:
+                res['package'] = self.lot.package.id
+                res['package.rec_name'] = (
+                    self.lot.package.rec_name)
+                self.package = self.lot.package
+            elif not self.lot.package and self.package:
+                self.package = None
+                res['package'] = None
+                res['package.rec_name'] = None
             res.update(self.on_change_package())
-        elif self.lot and not self.lot.package and self.package:
-            res['package'] = None
-            res['package.rec_name'] = None
         return res
 
     def check_package(self, quantity):
