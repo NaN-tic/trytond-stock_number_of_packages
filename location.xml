@@ -5,7 +5,7 @@
     <data>
         <record model="ir.ui.view" id="location_quantity_view_tree">
             <field name="model">stock.location</field>
-            <field name="type">tree</field>
+            <field name="type" eval="None"/>
     	    <field name="inherit" ref="stock.location_quantity_view_tree"/>
             <field name="name">location_quantity_tree</field>
         </record>
