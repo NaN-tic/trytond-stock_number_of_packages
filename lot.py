@@ -108,38 +108,30 @@ class Lot(StockMixin):
     @fields.depends('product', 'package', methods=['package'])
     def on_change_product(self):
         try:
-            changes = super(Lot, self).on_change_product()
+            super(Lot, self).on_change_product()
         except AttributeError:
-            changes = {}
+            pass
         if (not self.product or not self.product.default_package
                 or (self.package
                     and self.package.product == self.product.template)):
-            return changes
+            return
         self.package = self.product.default_package
-        changes.update({
-            'package': self.product.default_package.id,
-            })
-        changes.update(self.on_change_package())
-        return changes
+        self.on_change_package()
 
     @fields.depends('package')
     def on_change_package(self):
         if self.package:
-            changes = {}
             if self.package.qty:
-                changes['package_qty'] = self.package.qty
+                self.package_qty = self.package.qty
             if self.package.weight:
-                changes['package_weight'] = self._round_weight(
-                    self.package.weight)
+                self.package_weight = self._round_weight(self.package.weight)
             if self.package.pallet_weight:
-                changes['pallet_weight'] = self._round_weight(
+                self.pallet_weight = self._round_weight(
                     self.package.pallet_weight)
             n_packages = ((self.package.layers or 0)
                 * (self.package.packages_layer or 0))
             if n_packages:
-                changes['initial_number_of_packages'] = n_packages
-            return changes
-        return {}
+                self.initial_number_of_packages = n_packages
 
     @fields.depends('product')
     def on_change_with_product_uom(self, name=None):

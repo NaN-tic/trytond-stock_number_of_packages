@@ -25,19 +25,14 @@ class PackagedMixin:
 
     @fields.depends('product', 'package', methods=['package'])
     def on_change_product(self):
-        res = super(PackagedMixin, self).on_change_product()
+        super(PackagedMixin, self).on_change_product()
         if self.product and (not self.package
                 or self.package.product != self.product.template):
             if self.product.default_package:
-                res['package'] = self.product.default_package.id
-                res['package.rec_name'] = (
-                    self.product.default_package.rec_name)
                 self.package = self.product.default_package
-                res.update(self.on_change_package())
+                self.on_change_package()
             else:
-                res['package'] = None
-                res['package.rec_name'] = None
-        return res
+                self.package = None
 
     @fields.depends('package', 'number_of_packages', 'lot')
     def on_change_package(self):
@@ -46,30 +41,21 @@ class PackagedMixin:
         elif self.package and self.package.qty:
             package_qty = self.package.qty
         else:
-            return {}
+            return
         if self.number_of_packages or self.number_of_packages == 0:
-            return {
-                'quantity': self.number_of_packages * package_qty
-                }
-        return {}
+            self.quantity = self.number_of_packages * package_qty
 
     @fields.depends('package', 'number_of_packages')
     def on_change_number_of_packages(self):
-        if self.number_of_packages is None:
-            return {
-                'quantity': None,
-                }
-        if hasattr(self, 'lot') and getattr(self, 'lot', None):
-            package_qty = self.lot.package_qty
-        elif self.package and self.package.qty:
-            package_qty = self.package.qty
-        else:
-            return {
-                'quantity': None,
-                }
-        return {
-            'quantity': package_qty * self.number_of_packages,
-            }
+        self.quantity = None
+        if self.number_of_packages is not None:
+            if hasattr(self, 'lot') and getattr(self, 'lot', None):
+                package_qty = self.lot.package_qty
+            elif self.package and self.package.qty:
+                package_qty = self.package.qty
+            else:
+                return
+            self.quantity = package_qty * self.number_of_packages
 
     def check_package(self, quantity):
         """

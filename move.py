@@ -33,21 +33,15 @@ class StockPackagedMixin(PackagedMixin):
     @fields.depends('lot', 'package', methods=['package'])
     def on_change_lot(self):
         try:
-            res = super(StockPackagedMixin, self).on_change_lot()
+            super(StockPackagedMixin, self).on_change_lot()
         except AttributeError:
-            res = {}
+            pass
         if self.lot:
             if self.lot.package and self.package != self.lot.package:
-                res['package'] = self.lot.package.id
-                res['package.rec_name'] = (
-                    self.lot.package.rec_name)
                 self.package = self.lot.package
             elif not self.lot.package and self.package:
                 self.package = None
-                res['package'] = None
-                res['package.rec_name'] = None
-            res.update(self.on_change_package())
-        return res
+            self.on_change_package()
 
     def check_package(self, quantity):
         if self.number_of_packages and self.number_of_packages < 0:
