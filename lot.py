@@ -184,11 +184,11 @@ class Lot(StockMixin):
             return
 
         if self.product:
-            rounding = self.product.default_uom.rounding
+            default_uom = self.product.default_uom
         else:
-            rounding = 1. / 10 ** self.on_change_with_product_unit_digits()
-        return Uom.round(self.initial_number_of_packages * self.package_qty,
-            rounding)
+            default_uom = Uom()
+        return default_uom.round(self.initial_number_of_packages *
+            self.package_qty)
 
     @staticmethod
     def default_weight_unit_digits():
@@ -207,7 +207,7 @@ class Lot(StockMixin):
         ModelData = pool.get('ir.model.data')
         Uom = pool.get('product.uom')
         kg = Uom(ModelData.get_id('product', 'uom_kilogram'))
-        return Uom.round(weight, kg.rounding)
+        return kg.round(weight)
 
     @fields.depends('gross_weight', 'pallet_weight', 'package_weight',
         'initial_number_of_packages')
