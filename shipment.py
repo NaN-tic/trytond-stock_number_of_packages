@@ -38,11 +38,6 @@ class ShipmentOut:
                     'no_check_quantity_number_of_packages', True)):
             super(ShipmentOut, cls).pack(shipments)
 
-    @classmethod
-    def _sync_inventory_to_outgoing(cls, shipments):
-        with Transaction().set_context(update_packages=True):
-            super(ShipmentOut, cls)._sync_inventory_to_outgoing(shipments)
-
     def _get_outgoing_move(self, move):
         new_move = super(ShipmentOut, self)._get_outgoing_move(move)
         if not new_move:
