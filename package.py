@@ -62,20 +62,24 @@ class PackagedMixin:
         Check if package is required and all realted data is exists, and
         if number of packages corresponds to the quantity.
         """
+        if Transaction().context.get(
+                'no_check_quantity_number_of_packages'):
+            return
+
         if hasattr(self, 'uom'):
             uom = self.uom
         elif hasattr(self, 'unit'):
             uom = self.unit
         else:
             uom = None
-        if (not self.product.package_required
-                or self.quantity < uom.rounding):
+        if (not self.product.package_required or
+                self.quantity < uom.rounding):
             return
 
         if not self.package:
             self.raise_user_error('package_required', self.rec_name)
 
-        if self.number_of_packages == None:
+        if self.number_of_packages is None:
             self.raise_user_error('number_of_packages_required', self.rec_name)
 
         if hasattr(self, 'lot') and getattr(self, 'lot', None):
@@ -95,12 +99,10 @@ class PackagedMixin:
                     })
             package_qty = self.package.qty
 
-        if not Transaction().context.get(
-                'no_check_quantity_number_of_packages'):
-            if (abs(quantity - (self.number_of_packages * package_qty))
-                    > self.product.default_uom.rounding):
-                self.raise_user_error('invalid_quantity_number_of_packages',
-                    self.rec_name)
+        if (abs(quantity - (self.number_of_packages * package_qty)) >
+                self.product.default_uom.rounding):
+            self.raise_user_error('invalid_quantity_number_of_packages',
+                self.rec_name)
 
 
 class ProductPack:
