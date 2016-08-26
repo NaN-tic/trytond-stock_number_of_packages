@@ -24,13 +24,13 @@ class Inventory:
             super(Inventory, cls).confirm(inventories)
 
     @classmethod
-    def complete_lines(cls, inventories):
+    def complete_lines(cls, inventories, fill=True):
         pool = Pool()
         Category = pool.get('product.category')
         Line = pool.get('stock.inventory.line')
         Product = pool.get('product.product')
 
-        super(Inventory, cls).complete_lines(inventories)
+        super(Inventory, cls).complete_lines(inventories, fill)
 
         grouping = cls.grouping()
         to_create = []
