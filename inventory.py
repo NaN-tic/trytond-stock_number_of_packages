@@ -210,7 +210,7 @@ class InventoryLine(StockPackagedMixin):
         Inventory = pool.get('stock.inventory')
         Product = pool.get('product.product')
 
-        if isinstance(inventory, int):
+        if not isinstance(inventory, Inventory):
             inventory = Inventory(inventory)
 
         if not inventory or not inventory.location:
