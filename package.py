@@ -26,8 +26,8 @@ class PackagedMixin:
     @fields.depends('product', 'package', methods=['package'])
     def on_change_product(self):
         super(PackagedMixin, self).on_change_product()
-        if self.product and (not self.package
-                or self.package.product != self.product.template):
+        if self.product and (not self.package or
+                self.package.product != self.product.template):
             if self.product.default_package:
                 self.package = self.product.default_package
                 self.on_change_package()
@@ -42,7 +42,8 @@ class PackagedMixin:
             package_qty = self.package.qty
         else:
             return
-        if self.number_of_packages or self.number_of_packages == 0:
+        if ((self.number_of_packages or self.number_of_packages == 0) and
+                package_qty):
             self.quantity = self.number_of_packages * package_qty
 
     @fields.depends('package', 'number_of_packages')
