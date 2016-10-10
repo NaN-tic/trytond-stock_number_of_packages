@@ -1,7 +1,7 @@
 # The COPYRIGHT file at the top level of this repository contains the full
 # copyright notices and license terms.
 import math
-from sql import Cast, Join, Literal, Select, Table, Union
+from sql import Cast, Column, Join, Literal, Select, Table, Union
 from sql.aggregate import Sum
 from sql.conditionals import Coalesce
 from sql.operators import Neg
@@ -206,7 +206,9 @@ class Move(StockPackagedMixin):
 
                 columns = []
                 for col in sub_query.columns:
-                    if col.output_name == 'quantity':
+                    col_name = (col.name if isinstance(col, Column)
+                        else col.output_name)
+                    if col_name == 'quantity':
                         if isinstance(col.expression, Neg):
                             columns.append(
                                 (-n_packages_col).as_('quantity'))
