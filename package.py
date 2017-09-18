@@ -19,7 +19,7 @@ class PackagedMixin:
             },
         depends=['product'])
     number_of_packages = fields.Integer('Number of packages', states={
-            'invisible': ~Bool(Eval('product')) | ~Bool(Eval('package')),
+            'invisible': ~Bool(Eval('product')),
             },
         depends=['product', 'package'])
 
