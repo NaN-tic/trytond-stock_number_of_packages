@@ -225,6 +225,7 @@ class InventoryLine(StockPackagedMixin):
 
         with Transaction().set_context(
                 stock_date_end=inventory.date,
+                inactive_lots=True,
                 number_of_packages=True):
             pbl = Product.products_by_location(
                 [inventory.location.id], product_ids=[product_id],
