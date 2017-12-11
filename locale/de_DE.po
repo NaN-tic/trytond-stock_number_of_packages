@@ -72,7 +72,7 @@ msgstr ""
 "Die Anzahl von Position \"%s\" entspricht nicht der Anzahl der Packstücke."
 
 msgctxt "error:stock.lot:"
-msgid "Quantity by Package of Lot must be positive"
+msgid "Quantity by Package of Lot must be positive."
 msgstr "Anzahl pro Packstück muss eine positive Zahl sein."
 
 msgctxt "error:stock.move:"

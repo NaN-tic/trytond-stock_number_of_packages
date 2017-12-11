@@ -2,7 +2,8 @@
 # copyright notices and license terms.
 # The COPYRIGHT file at the top level of this repository contains the full
 # copyright notices and license terms.
-from trytond.model import fields
+from sql import Null
+from trytond.model import fields, Check
 from trytond.pool import Pool, PoolMeta
 from trytond.pyson import Bool, Eval
 
@@ -92,10 +93,11 @@ class Lot(StockMixin):
     @classmethod
     def __setup__(cls):
         super(Lot, cls).__setup__()
+        t = cls.__table__()
         cls._sql_constraints += [
             ('check_lot_package_qty_pos',
-                'CHECK(package_qty IS NULL OR package_qty >= 0.0)',
-                'Quantity by Package of Lot must be positive'),
+                Check(t, (t.package_qty == Null) | (t.package_qty >= '0')),
+                'Quantity by Package of Lot must be positive.'),
             ]
 
     def get_package_required(self, name=None):

@@ -75,7 +75,7 @@ msgstr ""
 "embalajes."
 
 msgctxt "error:stock.lot:"
-msgid "Quantity by Package of Lot must be positive"
+msgid "Quantity by Package of Lot must be positive."
 msgstr "La cantidad por embalaje del lote debe ser positiva."
 
 msgctxt "error:stock.move:"
