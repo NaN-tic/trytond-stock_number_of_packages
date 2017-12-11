@@ -9,8 +9,8 @@ from trytond.tests.test_tryton import doctest_checker
 from trytond.tests.test_tryton import install_module, drop_create
 
 
-class TestCase(ModuleTestCase):
-    'Test module'
+class StockNumberOfPackagesTestCase(ModuleTestCase):
+    'Test Stock Number of Packages module'
     module = 'stock_number_of_packages'
 
     @classmethod
@@ -22,7 +22,8 @@ class TestCase(ModuleTestCase):
 
 def suite():
     suite = trytond.tests.test_tryton.suite()
-    suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestCase))
+    suite.addTests(unittest.TestLoader().loadTestsFromTestCase(
+            StockNumberOfPackagesTestCase))
     suite.addTests(doctest.DocFileSuite(
             'scenario_stock_number_of_packages.rst',
             setUp=doctest_setup, tearDown=doctest_teardown, encoding='utf-8',

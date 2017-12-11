@@ -29,43 +29,16 @@ Create database::
 Install stock_number_of_packages Module::
 
     >>> Module = Model.get('ir.module')
-    >>> stock_module, = Module.find([
-    ...     ('name', '=', 'stock_number_of_packages'),
-    ...     ])
+    >>> stock_module, = Module.find([('name', '=', 'stock_number_of_packages')])
     >>> stock_module.click('install')
-    >>> Wizard('ir.module.install_upgrade').execute('upgrade')
-
-Install stock_lot Module::
-
-    >>> Module = Model.get('ir.module')
     >>> stock_module, = Module.find([('name', '=', 'stock_lot')])
     >>> stock_module.click('install')
-    >>> Wizard('ir.module.install_upgrade').execute('upgrade')
-
-Install stock_inventory_product_category Module::
-
-    >>> Module = Model.get('ir.module')
     >>> stock_module, = Module.find([('name', '=', 'stock_inventory_product_category')])
     >>> stock_module.click('install')
-    >>> Wizard('ir.module.install_upgrade').execute('upgrade')
-
-Install stock_lot_quantity Module::
-
-    >>> Module = Model.get('ir.module')
     >>> stock_module, = Module.find([('name', '=', 'stock_lot_quantity')])
     >>> stock_module.click('install')
-    >>> Wizard('ir.module.install_upgrade').execute('upgrade')
-
-Install sale Module::
-
-    >>> Module = Model.get('ir.module')
     >>> stock_module, = Module.find([('name', '=', 'sale')])
     >>> stock_module.click('install')
-    >>> Wizard('ir.module.install_upgrade').execute('upgrade')
-
-Install purchase Module::
-
-    >>> Module = Model.get('ir.module')
     >>> stock_module, = Module.find([('name', '=', 'purchase')])
     >>> stock_module.click('install')
     >>> Wizard('ir.module.install_upgrade').execute('upgrade')
@@ -98,6 +71,7 @@ Create chart of accounts::
     >>> expense = accounts['expense']
     >>> account_tax = accounts['tax']
     >>> cash = accounts['cash']
+
     >>> Journal = Model.get('account.journal')
     >>> cash_journal, = Journal.find([('type', '=', 'cash')])
     >>> cash_journal.credit_account = cash
@@ -439,7 +413,7 @@ Create an inventory::
     >>> line.number_of_packages = 19
     >>> line.quantity
     89.3
-    
+
     >>> inventory.save()
     >>> inventory.click('confirm')
 
@@ -633,6 +607,7 @@ Check sale shpiment inventory moves::
     >>> move.number_of_packages
     >>> move.lot = lot_w_package
     >>> move.number_of_packages = 18
+    >>> move.quantity = round(move.quantity, 1)
     >>> round(move.quantity, 1)
     84.6
 
@@ -771,6 +746,7 @@ Validate return shipment::
 
     >>> moves_by_products[product_lot_w_package.id].lot = lot_w_package
     >>> moves_by_products[product_lot_w_package.id].number_of_packages = 3
+    >>> moves_by_products[product_lot_w_package.id].quantity = round(moves_by_products[product_lot_w_package.id].quantity, 1)
 
     >>> shipment_return.save()
     >>> shipment_return.click('receive')
