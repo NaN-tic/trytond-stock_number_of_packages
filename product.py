@@ -7,11 +7,11 @@ from trytond.pyson import Eval
 from .move import StockMixin
 
 __all__ = ['Template', 'Product']
-__metaclass__ = PoolMeta
 
 
 class Template:
     __name__ = 'product.template'
+    __metaclass__ = PoolMeta
     package_required = fields.Boolean('Packaging Requried')
     default_package = fields.Many2One('product.pack', 'Default Packaging',
         domain=[
@@ -56,6 +56,7 @@ class Template:
 
 class Product(StockMixin):
     __name__ = 'product.product'
+    __metaclass__ = PoolMeta
 
     def get_package_required(self, name):
         return self.template.package_required

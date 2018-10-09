@@ -11,37 +11,37 @@ from trytond.pool import Pool, PoolMeta
 from trytond.pyson import Bool, Eval, In
 from trytond.transaction import Transaction
 
-from .package import PackagedMixin
+from trytond.modules.stock_number_of_packages.package import PackagedMixin
 
-__all__ = ['StockPackagedMixin', 'StockMixin', 'Move']
-__metaclass__ = PoolMeta
+__all__ = ['StockPackagedMixin', 'StockMixin', 'Move', 'MoveLot']
 
 
-class StockPackagedMixin(PackagedMixin):
-
+class LotPackagedMixin(object):
     @classmethod
     def __setup__(cls):
-        super(StockPackagedMixin, cls).__setup__()
+        super(LotPackagedMixin, cls).__setup__()
         if hasattr(cls, 'lot'):
             cls.package.states['readonly'] = Bool(Eval('lot'))
             cls.package.depends.append('lot')
             cls.package.on_change.add('lot')
-            if cls.quantity.on_change:
-                cls.quantity.on_change.add('lot')
+            cls.quantity.on_change.add('lot')
             cls.number_of_packages.on_change.add('lot')
 
-    @fields.depends('lot', 'package', methods=['package'])
+    @fields.depends('package', methods=['package'])
     def on_change_lot(self):
         try:
-            super(StockPackagedMixin, self).on_change_lot()
+            super(LotPackagedMixin, self).on_change_lot()
         except AttributeError:
             pass
-        if self.lot:
+        if hasattr(self, 'lot') and getattr(self, 'lot', None):
             if self.lot.package and self.package != self.lot.package:
                 self.package = self.lot.package
             elif not self.lot.package and self.package:
                 self.package = None
             self.on_change_package()
+
+
+class StockPackagedMixin(PackagedMixin):
 
     def check_package(self, quantity):
         if self.number_of_packages and self.number_of_packages < 0:
@@ -49,7 +49,7 @@ class StockPackagedMixin(PackagedMixin):
         super(StockPackagedMixin, self).check_package(quantity)
 
 
-class StockMixin:
+class StockMixin(object):
     package_required = fields.Function(fields.Boolean('Packaging Required'),
         'get_package_required', searcher='search_package_required')
     number_of_packages = fields.Function(fields.Integer('Number of packages',
@@ -80,11 +80,13 @@ class StockMixin:
         return super(StockMixin, cls)._quantity_context(name)
 
     @classmethod
-    def _get_quantity(cls, records, name, location_ids, products=None,
-            grouping=('product',), position=-1):
+    def _get_quantity(cls, records, name, location_ids,
+            grouping=('product',), grouping_filter=None, position=-1):
+
         quantities = super(StockMixin, cls)._get_quantity(records, name,
-            location_ids, products=products, grouping=grouping,
-            position=position)
+            location_ids, grouping=grouping, 
+            grouping_filter=grouping_filter, position=position)
+
         if name.endswith('number_of_packages'):
             for key, quantity in quantities.iteritems():
                 if quantity != None:
@@ -92,8 +94,14 @@ class StockMixin:
         return quantities
 
 
+class MoveLot(LotPackagedMixin):
+    __name__ = 'stock.move'
+    __metaclass__ = PoolMeta
+
+
 class Move(StockPackagedMixin):
     __name__ = 'stock.move'
+    __metaclass__ = PoolMeta
 
     @classmethod
     def __setup__(cls):

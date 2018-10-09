@@ -12,22 +12,15 @@ Imports::
     >>> from dateutil.relativedelta import relativedelta
     >>> from decimal import Decimal
     >>> from proteus import config, Model, Wizard
+    >>> from trytond.tests.tools import activate_modules
     >>> from trytond.modules.company.tests.tools import create_company, \
     ...     get_company
     >>> today = datetime.date.today()
     >>> last_month = today - relativedelta(months=1)
 
-Create database::
-
-    >>> config = config.set_trytond()
-    >>> config.pool.test = True
-
 Install stock_number_of_packages Module::
 
-    >>> Module = Model.get('ir.module')
-    >>> stock_module, = Module.find([('name', '=', 'stock_number_of_packages')])
-    >>> stock_module.click('install')
-    >>> Wizard('ir.module.install_upgrade').execute('upgrade')
+    >>> config = activate_modules('stock_number_of_packages')
 
 Create company::
 
@@ -137,22 +130,25 @@ Receive products one month ago::
     >>> incoming_move.from_location = supplier_loc
     >>> incoming_move.to_location = shipment_in.warehouse_input
     >>> shipment_in.save()
-    >>> shipment_in.click('receive')
-    >>> shipment_in.click('done')
+    >>> ShipmentIn.receive([shipment_in], config.context)
+    >>> ShipmentIn.done([shipment_in], config.context)
+    >>> shipment_in.reload()
+    >>> shipment_in.state
+    u'done'
 
 Check available quantities::
 
-    >>> with config.set_context({'locations': [storage_loc.id], 'stock_date_end': today}):
-    ...     product_wo_package.reload()
-    ...     product_wo_package.quantity
-    ...     product_wo_package.number_of_packages
-    ...     product_w_package.reload()
-    ...     product_w_package.quantity
-    ...     product_w_package.number_of_packages
-    100.0
-    0
+    >>> config._context['locations'] = [storage_loc.id]
+    >>> product_w_package = Product(product_w_package.id, config._context)
+    >>> product_w_package.quantity
     76.0
+    >>> product_w_package.number_of_packages
     16
+    >>> product_wo_package = Product(product_wo_package.id, config._context)
+    >>> product_wo_package.quantity
+    100.0
+    >>> product_wo_package.number_of_packages
+    0
 
 Create an inventory::
 

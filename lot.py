@@ -10,7 +10,6 @@ from trytond.pyson import Bool, Eval
 from .move import StockMixin
 
 __all__ = ['Lot']
-__metaclass__ = PoolMeta
 
 
 STATES_ON_CREATE = {
@@ -26,6 +25,8 @@ DEPENDS_REQUIRED = DEPENDS_ON_CREATE + ['package_required']
 
 class Lot(StockMixin):
     __name__ = 'stock.lot'
+    __metaclass__ = PoolMeta
+
     package = fields.Many2One('product.pack', 'Packaging', domain=[
             ('product.products', 'in', [Eval('product')]),
             ],
@@ -152,7 +153,6 @@ class Lot(StockMixin):
             return self.product_uom.digits
         return self.default_product_unit_digits()
 
-    @property
     def is_weight_uom(self):
         pool = Pool()
         ModelData = pool.get('ir.model.data')
@@ -161,21 +161,21 @@ class Lot(StockMixin):
         weight_uom_category = ModelData.get_id('product', 'uom_cat_weight')
         return self.product.default_uom.category.id == weight_uom_category
 
-    @fields.depends('package_qty', methods=['weight_by_package'])
+    @fields.depends('package_qty','product',
+        'product_uom', methods=['weight_by_package'])
     def on_change_with_package_qty(self, name=None):
         pool = Pool()
         ModelData = pool.get('ir.model.data')
         Uom = pool.get('product.uom')
 
         self.weight_by_package = self.on_change_with_weight_by_package()
-        if self.is_weight_uom and self.weight_by_package:
+        if self.is_weight_uom() and self.weight_by_package:
             kg = Uom(ModelData.get_id('product', 'uom_kilogram'))
             return Uom.compute_qty(kg, self.weight_by_package,
                 self.product_uom)
         return self.package_qty
 
-    @fields.depends('initial_number_of_packages', 'package_qty',
-        methods=['package_qty', 'product_unit_digits'])
+    @fields.depends('initial_number_of_packages', 'package_qty')
     def on_change_with_total_qty(self, name=None):
         pool = Pool()
         Uom = pool.get('product.uom')
@@ -232,9 +232,9 @@ class Lot(StockMixin):
             return
         return self._round_weight(self.gross_weight - self.pallet_weight)
 
-    @fields.depends(methods=['total_qty', 'gross_weight_packages'])
+    @fields.depends('product', methods=['total_qty', 'gross_weight_packages'])
     def on_change_with_unit_gross_weight(self, name=None):
-        if self.is_weight_uom:
+        if self.is_weight_uom():
             return
 
         self.gross_weight_packages = (
@@ -244,9 +244,9 @@ class Lot(StockMixin):
             return 0.0
         return self._round_weight(self.gross_weight_packages / self.total_qty)
 
-    @fields.depends(methods=['total_qty', 'weight'])
+    @fields.depends('product', methods=['total_qty', 'weight'])
     def on_change_with_unit_weight(self, name=None):
-        if self.is_weight_uom:
+        if self.is_weight_uom():
             return
 
         self.weight = self.on_change_with_weight()

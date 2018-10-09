@@ -21,27 +21,12 @@ Imports::
     >>> today = datetime.date.today()
     >>> last_month = today - relativedelta(months=1)
 
-Create database::
-
-    >>> config = config.set_trytond()
-    >>> config.pool.test = True
 
 Install stock_number_of_packages Module::
 
-    >>> Module = Model.get('ir.module')
-    >>> stock_module, = Module.find([('name', '=', 'stock_number_of_packages')])
-    >>> stock_module.click('install')
-    >>> stock_module, = Module.find([('name', '=', 'stock_lot')])
-    >>> stock_module.click('install')
-    >>> stock_module, = Module.find([('name', '=', 'stock_inventory_product_category')])
-    >>> stock_module.click('install')
-    >>> stock_module, = Module.find([('name', '=', 'stock_lot_quantity')])
-    >>> stock_module.click('install')
-    >>> stock_module, = Module.find([('name', '=', 'sale')])
-    >>> stock_module.click('install')
-    >>> stock_module, = Module.find([('name', '=', 'purchase')])
-    >>> stock_module.click('install')
-    >>> Wizard('ir.module.install_upgrade').execute('upgrade')
+    >>> config = activate_modules('stock_number_of_packages', 'stock_lot', 
+    ...     'stock_inventory_product_category', 'stock_lot_quantit', 'sale',
+    ...     'purchase'])
 
 Create company::
 

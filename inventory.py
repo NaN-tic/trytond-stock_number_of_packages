@@ -4,14 +4,14 @@ from trytond.model import fields
 from trytond.pool import Pool, PoolMeta
 from trytond.transaction import Transaction
 
-from .move import StockPackagedMixin
+from .move import StockPackagedMixin, LotPackagedMixin
 
 __all__ = ['Inventory', 'InventoryLine']
-__metaclass__ = PoolMeta
 
 
 class Inventory:
     __name__ = 'stock.inventory'
+    __metaclass__ = PoolMeta
 
     @classmethod
     def grouping(cls):
@@ -49,8 +49,8 @@ class Inventory:
                     stock_date_end=inventory.date,
                     number_of_packages=True):
                 pbl = Product.products_by_location(
-                    [inventory.location.id], product_ids=product_ids,
-                    grouping=grouping)
+                    [inventory.location.id],
+                    grouping=grouping, grouping_filter=(product_ids,))
 
             # Index some data
             product2type = {}
@@ -66,7 +66,7 @@ class Inventory:
                     continue
                 key = (inventory.location.id,) + line.unique_key
                 if key in pbl:
-                    number_of_packages = pbl.pop(key)
+                    number_of_packages = int(pbl.pop(key))
                 else:
                     number_of_packages = 0
                 if (line.number_of_packages == line.expected_number_of_packages
@@ -98,7 +98,7 @@ class Inventory:
                 values = Line.create_values4complete(inventory, 0.)
                 for i, fname in enumerate(grouping, 1):
                     values[fname] = key[i]
-                values['expected_number_of_packages'] = number_of_packages
+                values['expected_number_of_packages'] = int(number_of_packages)
                 if getattr(inventory, 'init_quantity_zero', False):
                     values['number_of_packages'] = 0
                 else:
@@ -108,8 +108,14 @@ class Inventory:
             Line.create(to_create)
 
 
+class LotInventoryLine(LotPackagedMixin):
+    __name__ = 'stock.inventory.line'
+    __metaclass__ = PoolMeta
+
+
 class InventoryLine(StockPackagedMixin):
     __name__ = 'stock.inventory.line'
+    __metaclass__ = PoolMeta
     expected_number_of_packages = fields.Integer('Expected Number of packages',
         readonly=True)
 
@@ -139,14 +145,16 @@ class InventoryLine(StockPackagedMixin):
         return 0
 
     @fields.depends('inventory', '_parent_inventory.date',
-        '_parent_inventory.location', 'product', 'lot', 'package')
+        '_parent_inventory.location', 'product', 'package',
+        methods=['expected_number_of_packages'])
     def on_change_with_expected_number_of_packages(self):
         if not self.inventory or not self.product:
             return
         return self._compute_expected_number_of_packages(
             self.inventory,
             self.product.id,
-            self.lot.id if getattr(self, 'lot', None) else None,
+            (self.lot.id if hasattr(self, 'lot') and
+                getattr(self, 'lot', None) else None),
             self.package.id if self.package else None)
 
     def get_move(self):
@@ -227,7 +235,7 @@ class InventoryLine(StockPackagedMixin):
                 stock_date_end=inventory.date,
                 number_of_packages=True):
             pbl = Product.products_by_location(
-                [inventory.location.id], product_ids=[product_id],
+                [inventory.location.id], grouping_filter=([product_id],),
                 grouping=grouping)
 
         if key in pbl:

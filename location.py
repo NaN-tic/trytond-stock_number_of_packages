@@ -5,11 +5,11 @@ from trytond.pool import PoolMeta
 from trytond.transaction import Transaction
 
 __all__ = ['Location']
-__metaclass__ = PoolMeta
 
 
 class Location:
     __name__ = 'stock.location'
+    __metaclass__ = PoolMeta
     number_of_packages = fields.Function(fields.Integer('Number of packages'),
         'get_number_of_packages')
     forecast_number_of_packages = fields.Function(

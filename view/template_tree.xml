@@ -4,5 +4,7 @@
 <data>
     <xpath expr="/tree/field[@name='default_uom']" position="after">
         <field name="default_package"/>
+        <field name="number_of_packages"/>
+        <field name="forecast_number_of_packages"/>
     </xpath>
 </data>

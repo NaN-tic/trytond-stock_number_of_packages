@@ -7,10 +7,9 @@ from trytond.tools import grouped_slice
 from trytond.transaction import Transaction
 
 __all__ = ['PackagedMixin', 'ProductPack']
-__metaclass__ = PoolMeta
 
 
-class PackagedMixin:
+class PackagedMixin(object):
     package = fields.Many2One('product.pack', 'Packaging', domain=[
             ('product.products', 'in', [Eval('product')]),
             ],
@@ -34,7 +33,7 @@ class PackagedMixin:
             else:
                 self.package = None
 
-    @fields.depends('package', 'number_of_packages', 'lot')
+    @fields.depends('package', 'quantity', 'number_of_packages')
     def on_change_package(self):
         if hasattr(self, 'lot') and getattr(self, 'lot', None):
             package_qty = self.lot.package_qty
@@ -108,6 +107,7 @@ class PackagedMixin:
 
 class ProductPack:
     __name__ = 'product.pack'
+    __metaclass__ = PoolMeta
 
     @classmethod
     def __setup__(cls):

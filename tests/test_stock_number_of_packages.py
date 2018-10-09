@@ -6,18 +6,11 @@ import trytond.tests.test_tryton
 from trytond.tests.test_tryton import ModuleTestCase
 from trytond.tests.test_tryton import doctest_setup, doctest_teardown
 from trytond.tests.test_tryton import doctest_checker
-from trytond.tests.test_tryton import install_module, drop_create
 
 
 class StockNumberOfPackagesTestCase(ModuleTestCase):
     'Test Stock Number of Packages module'
     module = 'stock_number_of_packages'
-
-    @classmethod
-    def setUpClass(cls):
-        drop_create()
-        super(ModuleTestCase, cls).setUpClass()
-        install_module('stock_lot')
 
 
 def suite():

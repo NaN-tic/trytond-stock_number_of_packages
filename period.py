@@ -5,10 +5,9 @@ from trytond.pool import Pool, PoolMeta
 from trytond.transaction import Transaction
 
 __all__ = ['Period', 'PeriodCache', 'PeriodCacheLot', 'PeriodCachePackage']
-__metaclass__ = PoolMeta
 
 
-class NumberOfPackagesCacheMixin:
+class NumberOfPackagesCacheMixin(object):
     number_of_packages = fields.Integer('Number of packages', readonly=True)
 
     @classmethod
@@ -46,6 +45,7 @@ class NumberOfPackagesCacheMixin:
 
 class Period:
     __name__ = 'stock.period'
+    __metaclass__ = PoolMeta
     package_caches = fields.One2Many('stock.period.cache.package', 'period',
         'Package Caches', readonly=True)
 
@@ -64,6 +64,7 @@ class Period:
 
 class PeriodCache(NumberOfPackagesCacheMixin):
     __name__ = 'stock.period.cache'
+    __metaclass__ = PoolMeta
 
     @classmethod
     def create(cls, vlist):
@@ -73,6 +74,7 @@ class PeriodCache(NumberOfPackagesCacheMixin):
 
 class PeriodCacheLot(NumberOfPackagesCacheMixin):
     __name__ = 'stock.period.cache.lot'
+    __metaclass__ = PoolMeta
 
     @classmethod
     def create(cls, vlist):
