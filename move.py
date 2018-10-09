@@ -24,7 +24,6 @@ class LotPackagedMixin(object):
             cls.package.states['readonly'] = Bool(Eval('lot'))
             cls.package.depends.append('lot')
             cls.package.on_change.add('lot')
-            cls.quantity.on_change.add('lot')
             cls.number_of_packages.on_change.add('lot')
 
     @fields.depends('package', methods=['package'])
