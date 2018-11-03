@@ -102,7 +102,8 @@ class Inventory:
                 if getattr(inventory, 'init_quantity_zero', False):
                     values['number_of_packages'] = 0
                 else:
-                    values['number_of_packages'] = max(number_of_packages, 0)
+                    values['number_of_packages'] = max(
+                        int(number_of_packages), 0)
                 to_create.append(values)
         if to_create:
             Line.create(to_create)
@@ -188,7 +189,7 @@ class InventoryLine(StockPackagedMixin):
             return
 
         move.package = self.package
-        move.number_of_packages = abs(delta_number_of_packages)
+        move.number_of_packages = int(abs(delta_number_of_packages))
         return move
 
     @classmethod
@@ -202,7 +203,7 @@ class InventoryLine(StockPackagedMixin):
     def create(cls, vlist):
         for values in vlist:
             if 'expected_number_of_packages' not in values:
-                values['expected_number_of_packages'] = (
+                values['expected_number_of_packages'] = int(
                     cls._compute_expected_number_of_packages(
                         values.get('inventory'),
                         values.get('product'),
@@ -239,5 +240,5 @@ class InventoryLine(StockPackagedMixin):
                 grouping=grouping)
 
         if key in pbl:
-            return pbl.pop(key)
+            return int(pbl.pop(key))
         return 0

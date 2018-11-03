@@ -38,7 +38,7 @@ class NumberOfPackagesCacheMixin(object):
             for location_id, location_vlist in vlist_by_location.iteritems():
                 for values in location_vlist:
                     key = tuple([location_id] + [values[x] for x in grouping])
-                    values['number_of_packages'] = pbl.get(key, 0.0)
+                    values['number_of_packages'] = int(pbl.get(key, 0.0))
                     vlist.append(values)
         return vlist
 

@@ -12,10 +12,11 @@ Imports::
     >>> from dateutil.relativedelta import relativedelta
     >>> from decimal import Decimal
     >>> from proteus import config, Model, Wizard
+    >>> from trytond.tests.tools import activate_modules
     >>> from trytond.modules.company.tests.tools import create_company, \
     ...     get_company
     >>> from trytond.modules.account.tests.tools import create_fiscalyear, \
-    ...     create_chart, get_accounts, create_tax, set_tax_code
+    ...     create_chart, get_accounts, create_tax
     >>> from trytond.modules.account_invoice.tests.tools import \
     ...     set_fiscalyear_invoice_sequences, create_payment_term
     >>> today = datetime.date.today()
@@ -24,9 +25,9 @@ Imports::
 
 Install stock_number_of_packages Module::
 
-    >>> config = activate_modules('stock_number_of_packages', 'stock_lot', 
-    ...     'stock_inventory_product_category', 'stock_lot_quantit', 'sale',
-    ...     'purchase'])
+    >>> config = activate_modules(['stock_number_of_packages', 'stock_lot',
+    ...   'stock_inventory_product_category', 'stock_lot_quantity', 'sale',
+    ...   'purchase'])
 
 Create company::
 
