@@ -1,7 +1,7 @@
 # The COPYRIGHT file at the top level of this repository contains the full
 # copyright notices and license terms.
 import math
-from sql import Cast, Column, Join, Literal, Select, Table, Union
+from sql import Cast, Column, Join, Literal, Select, Table, Union, From
 from sql.aggregate import Sum
 from sql.conditionals import Coalesce
 from sql.operators import Neg
@@ -69,29 +69,6 @@ class StockMixin(object):
     def search_package_required(cls, name, clause):
         raise NotImplementedError
 
-    @classmethod
-    def _quantity_context(cls, name):
-        if name.endswith('number_of_packages'):
-            quantity_fname = name.replace('number_of_packages', 'quantity')
-            context = super(StockMixin, cls)._quantity_context(quantity_fname)
-            context['number_of_packages'] = True
-            return context
-        return super(StockMixin, cls)._quantity_context(name)
-
-    @classmethod
-    def _get_quantity(cls, records, name, location_ids,
-            grouping=('product',), grouping_filter=None, position=-1):
-
-        quantities = super(StockMixin, cls)._get_quantity(records, name,
-            location_ids, grouping=grouping, 
-            grouping_filter=grouping_filter, position=position)
-
-        if name.endswith('number_of_packages'):
-            for key, quantity in quantities.iteritems():
-                if quantity != None:
-                    quantities[key] = int(quantity)
-        return quantities
-
 
 class MoveLot(LotPackagedMixin):
     __name__ = 'stock.move'
@@ -151,81 +128,26 @@ class Move(StockPackagedMixin):
                             move.product))
 
     @classmethod
+    def _quantity_context(cls, name):
+        if name.endswith('number_of_packages'):
+            #quantity_fname = name.replace('number_of_packages', 'quantity')
+            context = super(Move, cls)._quantity_context(name)
+            context['number_of_packages'] = True
+            return context
+        return super(Move, cls)._quantity_context(name)
+
+    @classmethod
     def compute_quantities_query(cls, location_ids, with_childs=False,
-            grouping=('product',), grouping_filter=None):
-        pool = Pool()
-        Period = pool.get('stock.period')
+            grouping=('product',), grouping_filter=None,
+            quantity_field='internal_quantity'):
 
-        query = super(Move, cls).compute_quantities_query(
+        quantity_field = 'internal_quantity'
+        if Transaction().context.get('number_of_packages'):
+            quantity_field = 'number_of_packages'
+
+        return super(Move, cls).compute_quantities_query(
             location_ids, with_childs=with_childs, grouping=grouping,
-            grouping_filter=grouping_filter)
-
-        if query and Transaction().context.get('number_of_packages'):
-            tables_to_find = [cls._table]
-            for grouping in Period.groupings():
-                Cache = Period.get_cache(grouping)
-                if Cache:
-                    tables_to_find.append(Cache._table)
-
-            def number_of_packages_column(table):
-                if table._name != cls._table:
-                    return Cast(
-                        Coalesce(table.number_of_packages, Literal(0)),
-                        cls.internal_quantity.sql_type().base)
-                return Cast(
-                    Sum(Coalesce(table.number_of_packages, Literal(0))),
-                    cls.internal_quantity.sql_type().base)
-
-            def find_table(join):
-                if not isinstance(join, Join):
-                    return
-                for pos in ['left', 'right']:
-                    item = getattr(join, pos)
-                    if isinstance(item, Table):
-                        if item._name in tables_to_find:
-                            return getattr(join, pos)
-                    else:
-                        return find_table(item)
-
-            def find_queries(query):
-                if isinstance(query, Union):
-                    for sub_query in query.queries:
-                        for q in find_queries(sub_query):
-                            yield q
-                elif isinstance(query, Select):
-                    yield query
-
-            union, = query.from_
-            for sub_query in find_queries(union):
-                # Find move table
-                for table in sub_query.from_:
-                    if (isinstance(table, Table)
-                            and table._name in tables_to_find):
-                        n_packages_col = number_of_packages_column(table)
-                        break
-                    found = find_table(table)
-                    if found:
-                        n_packages_col = number_of_packages_column(found)
-                        break
-                else:
-                    # Not query on move table
-                    continue
-
-                columns = []
-                for col in sub_query.columns:
-                    col_name = (col.name if isinstance(col, Column)
-                        else col.output_name)
-                    if col_name == 'quantity':
-                        if isinstance(col.expression, Neg):
-                            columns.append(
-                                (-n_packages_col).as_('quantity'))
-                        else:
-                            columns.append(
-                                n_packages_col.as_('quantity'))
-                    else:
-                        columns.append(col)
-                sub_query.columns = tuple(columns)
-        return query
+            grouping_filter=grouping_filter, quantity_field=quantity_field)
 
     @classmethod
     def create(cls, vlist):

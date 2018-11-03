@@ -162,11 +162,12 @@ class Lot(StockMixin):
         return self.product.default_uom.category.id == weight_uom_category
 
     @fields.depends('package_qty','product',
-        'product_uom', methods=['weight_by_package'])
+        'product_uom', 'weight_by_package', methods=['weight_by_package'])
     def on_change_with_package_qty(self, name=None):
         pool = Pool()
         ModelData = pool.get('ir.model.data')
         Uom = pool.get('product.uom')
+
 
         self.weight_by_package = self.on_change_with_weight_by_package()
         if self.is_weight_uom() and self.weight_by_package:
@@ -179,7 +180,6 @@ class Lot(StockMixin):
     def on_change_with_total_qty(self, name=None):
         pool = Pool()
         Uom = pool.get('product.uom')
-
         if any(f is None for f in [
                     self.initial_number_of_packages,
                     self.package_qty]):
@@ -255,7 +255,7 @@ class Lot(StockMixin):
             return 0.0
         return self._round_weight(self.weight / self.total_qty)
 
-    @fields.depends('initial_number_of_packages', methods=['weight'])
+    @fields.depends('initial_number_of_packages','pacakge_qty', methods=['weight'])
     def on_change_with_weight_by_package(self, name=None):
         self.weight = self.on_change_with_weight()
         if not self.initial_number_of_packages:

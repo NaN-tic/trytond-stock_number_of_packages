@@ -13,13 +13,13 @@ from . import location
 
 def register():
     Pool.register(
-        move.Move,
         package.ProductPack,
         product.Template,
         product.Product,
         period.Period,
         period.PeriodCache,
         period.PeriodCachePackage,
+        move.Move,
         shipment.ShipmentIn,
         shipment.ShipmentOut,
         shipment.ShipmentOutReturn,

@@ -17,6 +17,7 @@ Imports::
     ...     get_company
     >>> today = datetime.date.today()
     >>> last_month = today - relativedelta(months=1)
+    >>> tomorrow = datetime.date.today() + relativedelta(days=1)
 
 Install stock_number_of_packages Module::
 
@@ -60,7 +61,7 @@ Create products::
     >>> template.type = 'goods'
     >>> template.list_price = Decimal('300')
     >>> template.cost_price = Decimal('80')
-    >>> template.cost_price_method = 'average'
+    >>> template.cost_price_method = 'fixed'
     >>> package = template.packagings.new()
     >>> package.name = 'Package 1'
     >>> package.qty = 6
@@ -74,7 +75,7 @@ Create products::
     >>> template.type = 'goods'
     >>> template.list_price = Decimal('300')
     >>> template.cost_price = Decimal('80')
-    >>> template.cost_price_method = 'average'
+    >>> template.cost_price_method = 'fixed'
     >>> package = template.packagings.new()
     >>> package.name = 'Package 1'
     >>> package.qty = 4.5
@@ -138,12 +139,12 @@ Receive products one month ago::
 
 Check available quantities::
 
-    >>> config._context['locations'] = [storage_loc.id]
+    >>> config._context.update({'locations': [storage_loc.id], 'stock_date_end': today})
     >>> product_w_package = Product(product_w_package.id, config._context)
-    >>> product_w_package.quantity
-    76.0
     >>> product_w_package.number_of_packages
     16
+    >>> product_w_package.quantity
+    76.0
     >>> product_wo_package = Product(product_wo_package.id, config._context)
     >>> product_wo_package.quantity
     100.0
@@ -267,7 +268,7 @@ Create Shipment Out::
 
     >>> ShipmentOut = Model.get('stock.shipment.out')
     >>> shipment_out = ShipmentOut()
-    >>> shipment_out.planned_date = today
+    >>> shipment_out.planned_date = today - relativedelta(days=2)
     >>> shipment_out.customer = customer
     >>> outgoing_move = shipment_out.outgoing_moves.new()
     >>> outgoing_move.product = product_wo_package
@@ -306,7 +307,7 @@ Assign the shipment::
 
 Check available quantities and forecast quantities by product::
 
-    >>> with config.set_context({'locations': [storage_loc.id], 'stock_date_end': today}):
+    >>> with config.set_context({'locations': [storage_loc.id], 'stock_date_end': None}):
     ...     product_wo_package.reload()
     ...     product_wo_package.quantity
     ...     product_wo_package.number_of_packages
@@ -316,7 +317,6 @@ Check available quantities and forecast quantities by product::
     ...     product_w_package.quantity
     ...     product_w_package.number_of_packages
     ...     product_w_package.forecast_quantity
-    ...     product_w_package.forecast_number_of_packages
     80.0
     0
     40.0
@@ -324,20 +324,7 @@ Check available quantities and forecast quantities by product::
     82.5
     17
     59.0
-    12
 
-Check available quantities in location::
-
-    >>> with config.set_context({'product': product_w_package.id, 'stock_date_end': today}):
-    ...     storage_loc.reload()
-    ...     storage_loc.quantity
-    ...     storage_loc.number_of_packages
-    ...     storage_loc.forecast_quantity
-    ...     storage_loc.forecast_number_of_packages
-    82.5
-    17
-    59.0
-    12
 
 Finalize the shipment::
 
