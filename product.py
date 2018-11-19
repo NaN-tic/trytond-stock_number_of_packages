@@ -77,6 +77,7 @@ class Product(StockMixin):
 
         if name.endswith('number_of_packages'):
             for key, quantity in quantities.iteritems():
+                quantities[key] = 0
                 if quantity is not None:
                     quantities[key] = int(quantity)
         return quantities
