@@ -240,5 +240,5 @@ class InventoryLine(StockPackagedMixin):
                 grouping=grouping)
 
         if key in pbl:
-            return int(pbl.pop(key))
+            return int(pbl.pop(key) or 0)
         return 0
