@@ -44,6 +44,8 @@ class Inventory:
                         ])
                 products = Product.search([('category', 'in', categories)])
                 product_ids = [p.id for p in products]
+            if not product_ids:
+                continue
 
             with Transaction().set_context(
                     stock_date_end=inventory.date,
