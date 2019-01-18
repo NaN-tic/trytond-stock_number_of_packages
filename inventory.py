@@ -9,9 +9,8 @@ from .move import StockPackagedMixin, LotPackagedMixin
 __all__ = ['Inventory', 'InventoryLine']
 
 
-class Inventory:
+class Inventory(metaclass=PoolMeta):
     __name__ = 'stock.inventory'
-    __metaclass__ = PoolMeta
 
     @classmethod
     def grouping(cls):
@@ -111,37 +110,15 @@ class Inventory:
             Line.create(to_create)
 
 
-class LotInventoryLine(LotPackagedMixin):
+class LotInventoryLine(LotPackagedMixin, metaclass=PoolMeta):
     __name__ = 'stock.inventory.line'
-    __metaclass__ = PoolMeta
 
 
-class InventoryLine(StockPackagedMixin):
+class InventoryLine(StockPackagedMixin, metaclass=PoolMeta):
     __name__ = 'stock.inventory.line'
-    __metaclass__ = PoolMeta
+
     expected_number_of_packages = fields.Integer('Expected Number of packages',
         readonly=True)
-
-    @classmethod
-    def __setup__(cls):
-        super(InventoryLine, cls).__setup__()
-        cls._error_messages.update({
-                'package_required': (
-                    'Package required for inventory line "%s".'),
-                'number_of_packages_required': (
-                    'Number of packages required for inventory line "%s".'),
-                'number_of_packages_positive': ('Number of packages must be '
-                    'positive in inventory line "%s".'),
-                'invalid_lot_package': ('Package of inventory line  "%s" is '
-                    'not the same that the lot\'s package.'),
-                'lot_package_qty_required': ('Quantity by Package is required '
-                    'for lot "%(lot)s" of inventory line "%(record)s".'),
-                'package_qty_required': ('Quantity by Package is required for '
-                    'package "%(package)s" of inventory line "%(record)s".'),
-                'invalid_quantity_number_of_packages': (
-                    'The quantity of inventory line "%s" do not correspond to '
-                    'the number of packages.')
-                })
 
     @staticmethod
     def default_expected_number_of_packages():
@@ -149,7 +126,7 @@ class InventoryLine(StockPackagedMixin):
 
     @fields.depends('inventory', '_parent_inventory.date',
         '_parent_inventory.location', 'product', 'package',
-        methods=['expected_number_of_packages'])
+        methods=['_compute_expected_number_of_packages'])
     def on_change_with_expected_number_of_packages(self):
         if not self.inventory or not self.product:
             return

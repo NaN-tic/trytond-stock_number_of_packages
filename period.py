@@ -43,9 +43,9 @@ class NumberOfPackagesCacheMixin(object):
         return vlist
 
 
-class Period:
+class Period(metaclass=PoolMeta):
     __name__ = 'stock.period'
-    __metaclass__ = PoolMeta
+
     package_caches = fields.One2Many('stock.period.cache.package', 'period',
         'Package Caches', readonly=True)
 
@@ -62,9 +62,8 @@ class Period:
         return Cache
 
 
-class PeriodCache(NumberOfPackagesCacheMixin):
+class PeriodCache(NumberOfPackagesCacheMixin, metaclass=PoolMeta):
     __name__ = 'stock.period.cache'
-    __metaclass__ = PoolMeta
 
     @classmethod
     def create(cls, vlist):
@@ -72,9 +71,8 @@ class PeriodCache(NumberOfPackagesCacheMixin):
         return super(PeriodCache, cls).create(vlist)
 
 
-class PeriodCacheLot(NumberOfPackagesCacheMixin):
+class PeriodCacheLot(NumberOfPackagesCacheMixin, metaclass=PoolMeta):
     __name__ = 'stock.period.cache.lot'
-    __metaclass__ = PoolMeta
 
     @classmethod
     def create(cls, vlist):

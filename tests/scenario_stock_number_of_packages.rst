@@ -135,7 +135,7 @@ Receive products one month ago::
     >>> ShipmentIn.done([shipment_in], config.context)
     >>> shipment_in.reload()
     >>> shipment_in.state
-    u'done'
+    'done'
 
 Check available quantities::
 

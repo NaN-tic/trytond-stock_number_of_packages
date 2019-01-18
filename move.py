@@ -26,7 +26,7 @@ class LotPackagedMixin(object):
             cls.package.on_change.add('lot')
             cls.number_of_packages.on_change.add('lot')
 
-    @fields.depends('package', methods=['package'])
+    @fields.depends('package', methods=['on_change_package'])
     def on_change_lot(self):
         try:
             super(LotPackagedMixin, self).on_change_lot()
@@ -44,7 +44,9 @@ class StockPackagedMixin(PackagedMixin):
 
     def check_package(self, quantity):
         if self.number_of_packages and self.number_of_packages < 0:
-            self.raise_user_error('number_of_packages_positive', self.rec_name)
+            raise UserError(gettext(
+                'stock_number_of_packages.number_of_packages_positive',
+                    line=self.rec_name))
         super(StockPackagedMixin, self).check_package(quantity)
 
 
@@ -70,14 +72,12 @@ class StockMixin(object):
         raise NotImplementedError
 
 
-class MoveLot(LotPackagedMixin):
+class MoveLot(LotPackagedMixin, metaclass=PoolMeta):
     __name__ = 'stock.move'
-    __metaclass__ = PoolMeta
 
 
-class Move(StockPackagedMixin):
+class Move(StockPackagedMixin, metaclass=PoolMeta):
     __name__ = 'stock.move'
-    __metaclass__ = PoolMeta
 
     @classmethod
     def __setup__(cls):
@@ -93,22 +93,6 @@ class Move(StockPackagedMixin):
 
         cls._deny_modify_assigned |= set(['number_of_packages',
                 'number_of_packages'])
-
-        cls._error_messages.update({
-                'package_required': 'Package required for move "%s".',
-                'number_of_packages_required': (
-                    'Number of packages required for move "%s".'),
-                'number_of_packages_positive': (
-                    'Number of packages must be positive in move "%s".'),
-                'invalid_lot_package': ('Package of move "%s" is not the same '
-                    'that the lot\'s package.'),
-                'lot_package_qty_required': ('Quantity by Package is required '
-                    'for lot "%(lot)s" of move "%(record)s".'),
-                'package_qty_required': ('Quantity by Package is required '
-                    'for package "%(package)s" of move "%(record)s".'),
-                'invalid_quantity_number_of_packages': ('The quantity of move '
-                    '"%s" do not correspond to the number of packages.')
-                })
 
     @classmethod
     def validate(cls, records):

@@ -7,9 +7,8 @@ from trytond.transaction import Transaction
 __all__ = ['Location']
 
 
-class Location:
+class Location(metaclass=PoolMeta):
     __name__ = 'stock.location'
-    __metaclass__ = PoolMeta
     number_of_packages = fields.Function(fields.Integer('Number of packages'),
         'get_number_of_packages')
     forecast_number_of_packages = fields.Function(

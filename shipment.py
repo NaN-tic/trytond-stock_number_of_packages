@@ -6,9 +6,8 @@ from trytond.transaction import Transaction
 __all__ = ['ShipmentIn', 'ShipmentOut', 'ShipmentOutReturn']
 
 
-class ShipmentIn:
+class ShipmentIn(metaclass=PoolMeta):
     __name__ = 'stock.shipment.in'
-    __metaclass__ = PoolMeta
 
     @classmethod
     def _get_inventory_moves(cls, incoming_move):
@@ -20,9 +19,8 @@ class ShipmentIn:
         return move
 
 
-class ShipmentOut:
+class ShipmentOut(metaclass=PoolMeta):
     __name__ = 'stock.shipment.out'
-    __metaclass__ = PoolMeta
 
     def _get_inventory_move(self, move):
         inventory_move = super(ShipmentOut, self)._get_inventory_move(move)
@@ -56,9 +54,8 @@ class ShipmentOut:
             super(ShipmentOut, cls).done(shipments)
 
 
-class ShipmentOutReturn:
+class ShipmentOutReturn(metaclass=PoolMeta):
     __name__ = 'stock.shipment.out.return'
-    __metaclass__ = PoolMeta
 
     @classmethod
     def _get_inventory_moves(cls, incoming_move):

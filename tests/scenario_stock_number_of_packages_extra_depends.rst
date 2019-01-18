@@ -214,7 +214,7 @@ Purchase products two month ago::
     >>> purchase.click('confirm')
     >>> purchase.click('process')
     >>> purchase.state
-    u'processing'
+    'processing'
     >>> len(purchase.moves), len(purchase.shipment_returns)
     (4, 0)
 
@@ -550,7 +550,7 @@ Sale products::
     >>> Sale.confirm([sale.id], config.context)
     >>> Sale.process([sale.id], config.context)
     >>> sale.state
-    u'processing'
+    'processing'
     >>> sale.reload()
     >>> len(sale.shipments), len(sale.shipment_returns), len(sale.moves)
     (1, 0, 4)
@@ -712,7 +712,7 @@ Create return sale::
     >>> returned_sale.click('confirm')
     >>> returned_sale.click('process')
     >>> returned_sale.state
-    u'processing'
+    'processing'
     >>> len(returned_sale.shipments), len(returned_sale.shipment_returns)
     (0, 1)
 

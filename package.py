@@ -22,7 +22,7 @@ class PackagedMixin(object):
             },
         depends=['product', 'package'])
 
-    @fields.depends('product', 'package', methods=['package'])
+    @fields.depends('product', 'package', methods=['on_change_package'])
     def on_change_product(self):
         super(PackagedMixin, self).on_change_product()
         if self.product and (not self.package or
@@ -77,49 +77,47 @@ class PackagedMixin(object):
             return
 
         if not self.package:
-            self.raise_user_error('package_required', self.rec_name)
+            raise UserError(gettext(
+                'stock_number_of_packages.package_required',
+                line=self.rec_name))
 
         if self.number_of_packages is None:
-            self.raise_user_error('number_of_packages_required', self.rec_name)
+            raise UserError(gettext(
+                'stock_number_of_packages.number_of_packages_required',
+                    line=self.rec_name))
 
         if hasattr(self, 'lot') and getattr(self, 'lot', None):
             if not self.lot.package or self.lot.package != self.package:
-                self.raise_user_error('invalid_lot_package', self.rec_name)
+                raise UserError(gettext(
+                    'stock_number_of_packages.invalid_lot_package',
+                    line=self.rec_name))
             if not self.lot.package_qty:
-                self.raise_user_error('lot_package_qty_required', {
-                    'lot': self.lot.rec_name,
-                    'record': self.rec_name,
-                    })
+                raise UserError(gettext(
+                    'stock_number_of_packages.lot_package_qty_required',
+                    lot=self.lot.rec_name,
+                    record=self.rec_name))
             package_qty = self.lot.package_qty
         else:
             if not self.package.qty:
-                self.raise_user_error('package_qty_required', {
-                    'package': self.package.rec_name,
-                    'record': self.rec_name,
-                    })
+                raise UserError(gettext(
+                    'stock_number_of_packages.package_qty_required',
+                    package=self.package.rec_name,
+                    record=self.rec_name))
             package_qty = self.package.qty
 
         if (abs(quantity - (self.number_of_packages * package_qty)) >
                 self.product.default_uom.rounding):
-            self.raise_user_error('invalid_quantity_number_of_packages',
-                self.rec_name)
+            raise UserError(gettext(
+                'stock_number_of_packages.invalid_quantity_number_of_packages',
+                line=fself.rec_name))
 
 
-class ProductPack:
+class ProductPack(metaclass=PoolMeta):
     __name__ = 'product.pack'
-    __metaclass__ = PoolMeta
 
     @classmethod
     def __setup__(cls):
         super(ProductPack, cls).__setup__()
-        cls._error_messages.update({
-                'change_product': ('You cannot change the Product for '
-                    'a packaging which is associated to stock moves.'),
-                'change_qty': ('You cannot change the Quantity by Package for '
-                    'a packaging which is associated to stock moves.'),
-                'delete_packaging': ('You cannot delete a packaging which is '
-                    'associated to stock moves.'),
-                })
         cls._modify_no_move = [
             ('product', 'change_product'),
             ('qty', 'change_qty'),
@@ -145,7 +143,8 @@ class ProductPack:
 
     @classmethod
     def delete(cls, packagings):
-        cls.check_no_move(packagings, 'delete_packaging')
+        cls.check_no_move(packagings,
+            'stock_number_of_packages.delete_packaging')
         super(ProductPack, cls).delete(packagings)
 
     @classmethod
@@ -157,4 +156,4 @@ class ProductPack:
                     ],
                 limit=1, order=[])
             if moves:
-                cls.raise_user_error(error)
+                raise UserError(gettext(error))
