@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!-- This file is part of Tryton.  The COPYRIGHT file at the top level of
+this repository contains the full copyright notices and license terms. -->
+<tryton>
+    <data group="1">
+      <record model="ir.message" id="change_product">
+          <field name="text">You cannot change the Product for a packaging which is associated to stock moves</field>
+      </record>
+      <record model="ir.message" id="change_qty">
+          <field name="text">You cannot change the Quantity by Package for a packaging which is associated to stock moves.</field>
+      </record>
+      <record model="ir.message" id="delete_packaging">
+          <field name="text">You cannot delete a packaging which is associated to stock moves.</field>
+      </record>
+      <record model="ir.message" id="change_package_required">
+          <field name="text">You cannot change the Packaging Required for a product which is associated to stock moves.</field>
+      </record>
+      <record model="ir.message" id="package_required">
+          <field name="text">'Package required for inventory line "%(line)s".</field>
+      </record>
+      <record model="ir.message" id="number_of_packages_required">
+        <field name="text">Number of packages required for inventory line "%(line)s".</field>
+      </record>
+      <record model="ir.message" id="number_of_packages_positive">
+          <field name="text">Number of packages must be positive in inventory line "%(line)s".</field>
+      </record>
+      <record model="ir.message" id="invalid_lot_package">
+          <field name="text">Package of inventory line  "%(line)s" is not the same that the lot\'s package.</field>
+      </record>
+      <record model="ir.message" id="lot_package_qty_required">
+          <field name="text">Quantity by Package is required for lot "%(lot)s" of inventory line "%(record)s".</field>
+      </record>
+      <record model="ir.message" id="package_qty_required">
+          <field name="text">Quantity by Package is required for package "%(package)s" of inventory line "%(record)s"</field>
+      </record>
+      <record model="ir.message" id="invalid_quantity_number_of_packages">
+          <field name="text">The quantity of inventory line "%(line)s" do not correspond to the number of packages.</field>
+      </record>
+    </data>
+</tryton>
