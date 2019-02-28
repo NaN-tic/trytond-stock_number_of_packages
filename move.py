@@ -71,6 +71,14 @@ class StockMixin(object):
     def search_package_required(cls, name, clause):
         raise NotImplementedError
 
+    @classmethod
+    def _quantity_context(cls, name):
+        if name.endswith('number_of_packages'):
+            #quantity_fname = name.replace('number_of_packages', 'quantity')
+            context = super(StockMixin, cls)._quantity_context(name)
+            context['number_of_packages'] = True
+            return context
+        return super(StockMixin, cls)._quantity_context(name)
 
 class MoveLot(LotPackagedMixin, metaclass=PoolMeta):
     __name__ = 'stock.move'
@@ -111,14 +119,7 @@ class Move(StockPackagedMixin, metaclass=PoolMeta):
                         move._get_internal_quantity(move.quantity, move.uom,
                             move.product))
 
-    @classmethod
-    def _quantity_context(cls, name):
-        if name.endswith('number_of_packages'):
-            #quantity_fname = name.replace('number_of_packages', 'quantity')
-            context = super(Move, cls)._quantity_context(name)
-            context['number_of_packages'] = True
-            return context
-        return super(Move, cls)._quantity_context(name)
+
 
     @classmethod
     def compute_quantities_query(cls, location_ids, with_childs=False,
