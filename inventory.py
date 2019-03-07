@@ -41,7 +41,8 @@ class Inventory(metaclass=PoolMeta):
                         ('parent', 'child_of',
                             [inventory.product_category.id]),
                         ])
-                products = Product.search([('category', 'in', categories)])
+                products = Product.search([('categories.id', 'in', [
+                    x.id for x in categories])])
                 product_ids = [p.id for p in products]
             if not product_ids:
                 continue
