@@ -296,8 +296,7 @@ Validate Shipments one month ago::
     4.7
     >>> lot_w_package.save()
     >>> incoming_move.lot = lot_w_package
-    >>> incoming_move.package == product_lot_w_package.template.packagings[1]
-    True
+    >>> incoming_move.package = product_lot_w_package.template.packagings[1]
     >>> incoming_move.number_of_packages = 17
     >>> incoming_move.quantity
     79.9

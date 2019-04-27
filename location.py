@@ -20,7 +20,7 @@ class Location(metaclass=PoolMeta):
         quantity_fname = name.replace('number_of_packages', 'quantity')
         with Transaction().set_context(number_of_packages=True):
             quantities = cls.get_quantity(locations, quantity_fname)
-        for key, quantity in quantities.iteritems():
+        for key, quantity in quantities.items():
             if quantity != None:
                 quantities[key] = int(quantity)
         return quantities

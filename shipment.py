@@ -9,9 +9,8 @@ __all__ = ['ShipmentIn', 'ShipmentOut', 'ShipmentOutReturn']
 class ShipmentIn(metaclass=PoolMeta):
     __name__ = 'stock.shipment.in'
 
-    @classmethod
-    def _get_inventory_moves(cls, incoming_move):
-        move = super(ShipmentIn, cls)._get_inventory_moves(incoming_move)
+    def _get_inventory_move(self, incoming_move):
+        move = super(ShipmentIn, self)._get_inventory_move(incoming_move)
         if not move:
             return
         move.package = incoming_move.package

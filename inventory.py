@@ -89,7 +89,7 @@ class Inventory(metaclass=PoolMeta):
                 Line.write(*to_write)
 
             # Create lines if needed
-            for key, number_of_packages in pbl.iteritems():
+            for key, number_of_packages in pbl.items():
                 product_id = key[grouping.index('product') + 1]
                 if not number_of_packages:
                     continue

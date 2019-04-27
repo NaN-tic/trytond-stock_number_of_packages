@@ -70,7 +70,7 @@ class Product(StockMixin, metaclass=PoolMeta):
             grouping_filter=grouping_filter, position=position)
 
         if name.endswith('number_of_packages'):
-            for key, quantity in quantities.iteritems():
+            for key, quantity in quantities.items():
                 quantities[key] = 0
                 if quantity is not None:
                     quantities[key] = int(quantity)
@@ -81,7 +81,7 @@ class Product(StockMixin, metaclass=PoolMeta):
         if name.endswith('number_of_packages'):
             with Transaction().set_context(number_of_packages=True):
                 location_ids = Transaction().context.get('locations')
-                product_ids = map(int, products)
+                product_ids = [x.id for x in products]
                 return cls._get_quantity(
                     products, name, location_ids,
                     grouping_filter=(product_ids,))

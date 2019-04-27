@@ -23,7 +23,7 @@ class NumberOfPackagesCacheMixin(object):
 
         vlist = []
         for period_id, vlist_by_location in \
-                vlist_by_period_location.iteritems():
+                vlist_by_period_location.items():
             period = Period(period_id)
             with Transaction().set_context(
                     stock_date_end=period.date,
@@ -35,7 +35,7 @@ class NumberOfPackagesCacheMixin(object):
                     ):
                 pbl = Product.products_by_location(
                     vlist_by_location.keys(), grouping=grouping)
-            for location_id, location_vlist in vlist_by_location.iteritems():
+            for location_id, location_vlist in vlist_by_location.items():
                 for values in location_vlist:
                     key = tuple([location_id] + [values[x] for x in grouping])
                     values['number_of_packages'] = int(pbl.get(key, 0.0))
