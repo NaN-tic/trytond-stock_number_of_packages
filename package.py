@@ -5,6 +5,8 @@ from trytond.pool import Pool, PoolMeta
 from trytond.pyson import Bool, Eval
 from trytond.tools import grouped_slice
 from trytond.transaction import Transaction
+from trytond.exceptions import UserError
+from trytond.i18n import gettext
 
 __all__ = ['PackagedMixin', 'ProductPack']
 
@@ -109,7 +111,7 @@ class PackagedMixin(object):
                 self.product.default_uom.rounding):
             raise UserError(gettext(
                 'stock_number_of_packages.invalid_quantity_number_of_packages',
-                line=fself.rec_name))
+                line=self.rec_name))
 
 
 class ProductPack(metaclass=PoolMeta):

@@ -1,16 +1,11 @@
 # The COPYRIGHT file at the top level of this repository contains the full
 # copyright notices and license terms.
-import math
-from sql import Cast, Column, Join, Literal, Select, Table, Union, From
-from sql.aggregate import Sum
-from sql.conditionals import Coalesce
-from sql.operators import Neg
-
 from trytond.model import fields
 from trytond.pool import Pool, PoolMeta
 from trytond.pyson import Bool, Eval, In
 from trytond.transaction import Transaction
-
+from trytond.exceptions import UserError
+from trytond.i18n import gettext
 from trytond.modules.stock_number_of_packages.package import PackagedMixin
 
 __all__ = ['StockPackagedMixin', 'StockMixin', 'Move', 'MoveLot']
