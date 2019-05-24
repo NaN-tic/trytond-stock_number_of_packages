@@ -16,7 +16,7 @@ this repository contains the full copyright notices and license terms. -->
           <field name="text">You cannot change the Packaging Required for a product which is associated to stock moves.</field>
       </record>
       <record model="ir.message" id="package_required">
-          <field name="text">'Package required for inventory line "%(line)s".</field>
+          <field name="text">Package required for inventory line "%(line)s".</field>
       </record>
       <record model="ir.message" id="number_of_packages_required">
         <field name="text">Number of packages required for inventory line "%(line)s".</field>
