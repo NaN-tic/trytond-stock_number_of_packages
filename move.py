@@ -21,7 +21,7 @@ class LotPackagedMixin(object):
             cls.package.on_change.add('lot')
             cls.number_of_packages.on_change.add('lot')
 
-    @fields.depends('package', methods=['on_change_package'])
+    @fields.depends('package','lot', methods=['on_change_package'])
     def on_change_lot(self):
         try:
             super(LotPackagedMixin, self).on_change_lot()

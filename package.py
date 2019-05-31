@@ -47,7 +47,7 @@ class PackagedMixin(object):
                 package_qty):
             self.quantity = self.number_of_packages * package_qty
 
-    @fields.depends('package', 'number_of_packages')
+    @fields.depends('package', 'lot', 'number_of_packages')
     def on_change_number_of_packages(self):
         self.quantity = None
         if self.number_of_packages is not None:
