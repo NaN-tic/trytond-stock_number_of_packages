@@ -9,7 +9,6 @@ from trytond.modules.stock_number_of_packages.move import StockMixin
 
 __all__ = ['Template', 'Product']
 
-
 class Template(metaclass=PoolMeta):
     __name__ = 'product.template'
 
@@ -40,15 +39,12 @@ class Template(metaclass=PoolMeta):
             ('package_required', 'change_package_required'))
 
     def sum_product(self, name):
-
-        if name in ('number_of_packages', 'forecast_number_of_packages'):
-            sum_ = 0
-            for product in self.products:
-                qty = getattr(product, name)
-                if qty:
-                    sum_ += qty
-            return sum_
-        return super(Template, self).sum_product(name)
+        if name not in ('number_of_packages', 'forecast_number_of_packages'):
+            return super(Template, self).sum_product(name)
+        sum_ = 0. if name != 'cost_value' else Decimal(0)
+        for product in self.products:
+            sum_ += getattr(product, name)
+        return sum_
 
 
 class Product(StockMixin, metaclass=PoolMeta):
@@ -60,6 +56,13 @@ class Product(StockMixin, metaclass=PoolMeta):
     @classmethod
     def search_package_required(cls, name, clause):
         return [('template.package_required', ) + tuple(clause[1:])]
+
+    @classmethod
+    def _quantity_context(cls, name):
+        if name.endswith('number_of_packages'):
+            context['number_of_packages'] = True
+            return context
+        return super(Product, cls)._quantity_context(name)
 
     @classmethod
     def _get_quantity(cls, records, name, location_ids,
@@ -75,16 +78,3 @@ class Product(StockMixin, metaclass=PoolMeta):
                 if quantity is not None:
                     quantities[key] = int(quantity)
         return quantities
-
-    @classmethod
-    def get_quantity(cls, products, name):
-        if name.endswith('number_of_packages'):
-            with Transaction().set_context(number_of_packages=True):
-                location_ids = Transaction().context.get('locations')
-                product_ids = [x.id for x in products]
-                return cls._get_quantity(
-                    products, name, location_ids,
-                    grouping_filter=(product_ids,))
-
-        with Transaction().set_context(number_of_packages=False):
-            return super(Product, cls).get_quantity(products, name)
