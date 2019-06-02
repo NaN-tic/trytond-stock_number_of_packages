@@ -114,8 +114,6 @@ class Move(StockPackagedMixin, metaclass=PoolMeta):
                         move._get_internal_quantity(move.quantity, move.uom,
                             move.product))
 
-
-
     @classmethod
     def compute_quantities_query(cls, location_ids, with_childs=False,
             grouping=('product',), grouping_filter=None,
