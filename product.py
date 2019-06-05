@@ -1,10 +1,9 @@
 # The COPYRIGHT file at the top level of this repository contains the full
 # copyright notices and license terms.
+from decimal import Decimal
 from trytond.model import fields
 from trytond.pool import PoolMeta
 from trytond.pyson import Eval
-from trytond.transaction import Transaction
-
 from trytond.modules.stock_number_of_packages.move import StockMixin
 
 __all__ = ['Template', 'Product']
@@ -59,10 +58,10 @@ class Product(StockMixin, metaclass=PoolMeta):
 
     @classmethod
     def _quantity_context(cls, name):
+        context = super(Product, cls)._quantity_context(name)
         if name.endswith('number_of_packages'):
             context['number_of_packages'] = True
-            return context
-        return super(Product, cls)._quantity_context(name)
+        return context
 
     @classmethod
     def _get_quantity(cls, records, name, location_ids,
