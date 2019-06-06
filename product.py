@@ -59,6 +59,8 @@ class Product(StockMixin, metaclass=PoolMeta):
     @classmethod
     def _quantity_context(cls, name):
         context = super(Product, cls)._quantity_context(name)
+        if not context:
+            context = {}
         if name.endswith('number_of_packages'):
             context['number_of_packages'] = True
         return context
