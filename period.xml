@@ -6,14 +6,12 @@
         <!-- stock.period.cache -->
         <record model="ir.ui.view" id="period_cache_view_form">
             <field name="model">stock.period.cache</field>
-            <field name="type" eval="None"/>
             <field name="inherit" ref="stock.period_cache_view_form"/>
             <field name="name">period_cache_form</field>
         </record>
 
         <record model="ir.ui.view" id="period_cache_view_list">
             <field name="model">stock.period.cache</field>
-            <field name="type" eval="None"/>
             <field name="inherit" ref="stock.period_cache_view_list"/>
             <field name="name">period_cache_list</field>
         </record>
@@ -68,7 +66,6 @@
 
         <record model="ir.ui.view" id="period_cache_lot_view_list">
             <field name="model">stock.period.cache.lot</field>
-            <field name="type" eval="None"/>
             <field name="inherit" ref="stock_lot.period_cache_lot_view_list"/>
             <field name="name">period_cache_list</field>
         </record>
