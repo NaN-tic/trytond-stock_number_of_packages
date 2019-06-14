@@ -87,6 +87,9 @@ class Inventory(metaclass=PoolMeta):
             if to_write:
                 Line.write(*to_write)
 
+            if not fill:
+                continue
+
             # Create lines if needed
             for key, number_of_packages in pbl.items():
                 product_id = key[grouping.index('product') + 1]
@@ -143,6 +146,10 @@ class InventoryLine(StockPackagedMixin, metaclass=PoolMeta):
 
         move = super(InventoryLine, self).get_move()
         if not self.product.package_required and not self.package:
+            return move
+
+        if (self.number_of_packages is None
+                and self.inventory.empty_quantity == 'keep'):
             return move
 
         delta_number_of_packages = ((self.expected_number_of_packages or 0)
