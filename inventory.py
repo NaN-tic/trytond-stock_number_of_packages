@@ -71,8 +71,7 @@ class Inventory(metaclass=PoolMeta):
                     number_of_packages = int(pbl.pop(key))
                 else:
                     number_of_packages = 0
-                if (line.number_of_packages == line.expected_number_of_packages
-                            == number_of_packages):
+                if (line.number_of_packages == line.expected_number_of_packages):
                     continue
                 values = {
                     'expected_number_of_packages': number_of_packages,
