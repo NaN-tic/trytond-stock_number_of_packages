@@ -145,6 +145,9 @@ class InventoryLine(StockPackagedMixin, metaclass=PoolMeta):
         Move = pool.get('stock.move')
 
         move = super(InventoryLine, self).get_move()
+        if not move:
+            return
+
         if not self.product.package_required and not self.package:
             return move
 
