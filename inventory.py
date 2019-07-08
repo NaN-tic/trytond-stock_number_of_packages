@@ -128,7 +128,7 @@ class InventoryLine(StockPackagedMixin, metaclass=PoolMeta):
         return 0
 
     @fields.depends('inventory', '_parent_inventory.date',
-        '_parent_inventory.location', 'product', 'package',
+        '_parent_inventory.location', 'product', 'lot', 'package',
         methods=['_compute_expected_number_of_packages'])
     def on_change_with_expected_number_of_packages(self):
         if not self.inventory or not self.product:
