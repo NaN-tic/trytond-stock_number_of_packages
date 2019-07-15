@@ -33,8 +33,10 @@ class NumberOfPackagesCacheMixin(object):
                     stock_destinations=None,
                     number_of_packages=True,
                     ):
+
+                llist=[x for x in vlist_by_location]
                 pbl = Product.products_by_location(
-                    vlist_by_location.keys(), grouping=grouping)
+                    llist, grouping=grouping)
             for location_id, location_vlist in vlist_by_location.items():
                 for values in location_vlist:
                     key = tuple([location_id] + [values[x] for x in grouping])
